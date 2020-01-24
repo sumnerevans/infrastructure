@@ -25,7 +25,7 @@ Uptime
 * Can blow away all machines (but not data) and restore in under an hour
 * Can restore all data within one day after catastrophic failure (everything
   goes down, including data)
-  
+
   * From local backup: 1 day
   * From B2: 2 days
 
