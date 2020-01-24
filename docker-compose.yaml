@@ -18,6 +18,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.tls.address=:433"
     ports:
       - "80:80"
       - "433:433"

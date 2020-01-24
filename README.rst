@@ -9,7 +9,6 @@ Things I Need to Run
 * Wireguard
 * Mumble Server
 * Bitwarden (rs version, probably)
-* Traefik
 
 Goals
 =====
