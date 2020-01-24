@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: traefik
+    container_name: traefik
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "433:433"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  airsonic:
+    image: linuxserver/airsonic
+    container_name: airsonic
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.airsonic.rule=Host(`airsonic.localhost`)"
+      - "traefik.http.routers.airsonic.entrypoints=web"
