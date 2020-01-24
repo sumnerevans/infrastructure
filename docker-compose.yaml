@@ -1,7 +1,15 @@
 version: "3.3"
 
+volumes:
+  wireguard:
+    driver: local
+
+networks:
+  vpn_network:
+
 services:
 
+  # For routing shit
   traefik:
     image: traefik
     container_name: traefik
@@ -24,3 +32,25 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.airsonic.rule=Host(`airsonic.localhost`)"
       - "traefik.http.routers.airsonic.entrypoints=web"
+
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.localhost`)"
+      - "traefik.http.routers.nextcloud.entrypoints=web"
+
+  wireguard:
+    image: cmulk/wireguard-docker
+    container_name: wireguard
+    volumes:
+      - wireguard:/etc/wireguard
+    networks:
+      - vpn_network
+    ports:
+      - 5555:5555/udp
+    restart: unless-stopped
+    cap_add:
+     - NET_ADMIN
+     - SYS_MODULE
