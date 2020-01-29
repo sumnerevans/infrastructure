@@ -10,6 +10,7 @@ Things I Need to Run
 * Mumble Server
 * Bitwarden (rs version, probably)
 * Matrix
+* Matomo
 
 Goals
 =====
