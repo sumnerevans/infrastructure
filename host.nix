@@ -1,7 +1,5 @@
 {pkgs, ...}: {
-  imports = [
-    ./services/default.nix
-  ];
+  imports = import ./services/default.nix;
 
   # General packages for system maintenance.
   environment.systemPackages = with pkgs; [
