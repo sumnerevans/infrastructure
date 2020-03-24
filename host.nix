@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ./services/airsonic.nix
-    ./services/nextcloud.nix
-    ./services/nginx.nix
+    ./services/default.nix
   ];
 
   # General packages for system maintenance.
