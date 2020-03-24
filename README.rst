@@ -11,6 +11,7 @@ Things I Need to Run
 * Bitwarden (rs version, probably)
 * Matrix
 * Matomo
+* IRSSI/QUASSEL
 
 Goals
 =====
