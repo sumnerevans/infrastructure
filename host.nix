@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./services/nginx.nix
+    ./services/nextcloud.nix
   ];
 
   # General packages for system maintenance.
@@ -15,4 +16,7 @@
 
   # All users must be added declaritively.
   users.mutableUsers = false;
+
+  # Firewall configuration.
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }

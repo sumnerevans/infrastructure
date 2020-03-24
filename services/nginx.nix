@@ -6,12 +6,14 @@
     group = "nginx";
   };
 
-  services.nginx.enable = true;
-  services.nginx.enableReload = true;
-  services.nginx.group = "nginx";
-  services.nginx.user = "nginx";
-  services.nginx.recommendedGzipSettings = true;
-  services.nginx.recommendedOptimisation = true;
-  services.nginx.recommendedTlsSettings = true;
-  services.nginx.statusPage = true;
+  services.nginx = {
+    enable = true;
+    enableReload = true;
+    group = "nginx";
+    user = "nginx";
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedTlsSettings = true;
+    statusPage = true;
+  };
 }
