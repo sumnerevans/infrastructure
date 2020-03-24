@@ -4,6 +4,7 @@
     enableReload = true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
+    recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
     # Enable a status page and expose it.

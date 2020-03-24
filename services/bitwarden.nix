@@ -1,7 +1,6 @@
 { pkgs, ... }: {
   services.bitwarden_rs = {
     enable = true;
-    backupDir = "/backups/bitwarden_rs";
     config = {
       domain = "https://bitwarden.sumnerevans.com";
       signupsAllowed = false;

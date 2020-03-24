@@ -14,6 +14,9 @@
   # All users must be added declaritively.
   users.mutableUsers = false;
 
-  # Firewall configuration.
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  # Network configuration.
+  networking = {
+    domain = "sumnerevans.com";
+    firewall.allowedTCPPorts = [ 80 443 ];
+  };
 }

@@ -2,7 +2,7 @@
 { pkgs, ... }: {
   services.nextcloud = {
     enable = true;
-    hostName = "138.68.57.211";
+    hostName = "nextcloud.sumnerevans.com";
     https = true;
     nginx.enable = true;
     config = {
