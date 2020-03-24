@@ -33,23 +33,26 @@ def prompt_select(prompt, options, formatter, multiple=False, default=None):
                         f' [{default_idx}]' if default else '',
                     )).split(),
                 ))
+
+            if len(result) == 0:
+                if default:
+                    return options[default_idx]
+                continue
+            elif len(result) == 1:
+                return options[list(result)[0]]
+            elif multiple is False:
+                continue
+            else:
+                return [options[i] for i in result]
         except Exception:
-            continue
-        if len(result) == 0:
-            if default:
-                return options[default_idx]
-            continue
-        elif len(result) == 1:
-            return options[list(result)[0]]
-        elif multiple is False:
-            continue
-        else:
-            return [o for i, o in enumerate(options) if i in result]
+            # Could be something that wasn't a number, invalid index, etc.
+            # Regardless, reprompt.
+            pass
 
 
 def prompt_proceed(prompt):
     while True:
-        proceed = input(prompt + ' [yN]')
+        proceed = input(prompt + ' [yN]: ')
         if proceed in ('y', 'Y'):
             return True
         elif proceed in ('n', 'N', ''):
@@ -107,7 +110,7 @@ user_data = '''#cloud-config
 
 runcmd:
   - apt install -y git
-  - git clone https://gitlab.com/sumner/infrastructure.git
+  - git clone https://gitlab.com/sumner/infrastructure.git /etc/nixos
   - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIX_CHANNEL=nixos-19.09 bash 2>&1 | tee /tmp/infect.log
 '''
 
@@ -144,4 +147,6 @@ droplet = digitalocean.Droplet(
     user_data=user_data,
 )
 
+print('Creating...', end=' ')
 droplet.create()
+print('DONE')
