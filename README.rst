@@ -17,7 +17,7 @@ Goals
 =====
 
 * Infrastructure as code
-* Immutable infrastructure
+* Immutable infrastructure (as much as possible)
 * Everything backed up to B2
 * Everything backed up to onsite location
 
@@ -35,7 +35,35 @@ Things that Need Stored Somewhere
 ---------------------------------
 
 * Nextcloud docs and such (low latency, need these in object storage)
-* Photos (not as low latency, can have these in S3 storage if necessary)
+* Photos (not as low latency, can have these in S3/Spaces/B2 storage if
+  necessary)
 * Music
 * Configs (stored in this repo)
 * Projects (stored in their respective Git(Hub|Lab) Repos)
+* Password data
+
+Things that need to be setup by scripts
+=======================================
+
+- [ ] Can these be done from within the management of NixOS?
+
+* Airsonic: change admin user password
+* Airsonic: create personal user
+* Bitwarden: add a user
+* Synapse user
+* Mumble SuperUser
+* Mumble channels
+* Nextcloud user
+* Nextcloud apps
+* Nextcloud data
+
+Things that need secrets
+========================
+
+* Airsonic admin password
+* Airsonic sumner password
+* Bitwarden password
+* Synapse user password
+* Mumble SuperUser password
+* Nextcloud admin password
+* Wireguard private keys and preshared keys

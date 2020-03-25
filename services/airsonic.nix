@@ -1,9 +1,4 @@
 { pkgs, ... }: {
-  # Install the airsonic package.
-  environment.systemPackages = with pkgs; [
-    airsonic
-  ];
-
   # Create the airsonic service.
   services.airsonic = {
     enable = true;

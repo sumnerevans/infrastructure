@@ -1,9 +1,13 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   imports = import ./services/default.nix;
 
   # General packages for system maintenance.
   environment.systemPackages = with pkgs; [
-    vim git
+    git
+    htop
+    tree
+    unzip
+    vim
   ];
 
   # Keep the system up-to-date automatically.

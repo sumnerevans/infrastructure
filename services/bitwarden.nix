@@ -3,10 +3,13 @@
     enable = true;
     config = {
       domain = "https://bitwarden.sumnerevans.com";
-      signupsAllowed = false;
       rocketAddress = "0.0.0.0";
-      rocketPort = 8222;
       rocketLog = "critical";
+      rocketPort = 8222;
+      signupsAllowed = false;
+      websocketAddress = 0.0.0.0;
+      websocketEnabled = true;
+      websocketPort = 3012;
     };
   };
 
