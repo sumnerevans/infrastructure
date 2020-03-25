@@ -10,8 +10,8 @@
       dbuser = "nextcloud";
       dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
       dbname = "nextcloud";
-      adminpass = "test";
-      adminuser = "admin";
+      adminpassFile = "/etc/nixos/secrets/nextcloud-sumner";
+      adminuser = "sumner";
       overwriteProtocol = "https";
     };
     autoUpdateApps.enable = true;
