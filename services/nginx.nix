@@ -16,4 +16,7 @@
       };
     };
   };
+
+  # Open up the ports
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
