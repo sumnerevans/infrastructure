@@ -1,9 +1,17 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: let
+  certs = config.security.acme.certs;
+  serverName = "mumble.sumnerevans.com";
+in {
   services.murmur = {
     enable = true;
-    registerHostname = "mumble.sumnerevans.com";
+    registerHostname = "${serverName}";
     registerName = "Sumner's Mumble Server";
     welcometext = "Welcome to Sumner's Mumble Server. Enjoy your stay!";
+
+    # Keys
+    sslCert = "${certs.${serverName}.directory}/fullchain.pem";
+    sslKey = "${certs.${serverName}.directory}/key.pem";
+    sslCa = "${certs.${serverName}.directory}/full.pem";
   };
 
   # Open up the ports for TCP and UDP
@@ -12,5 +20,14 @@
     allowedUDPPorts = [ 64738 ];
   };
 
-  # TODO get the certs
+  # Use nginx to do the ACME verification for mumble. Just 404 if
+  services.nginx.virtualHosts."mumble.sumnerevans.com" = {
+    locations."/.well-known/acme-challenge".root = "/var/lib/acme/acme-challenges";
+  };
+
+  security.acme.certs."${serverName}" = {
+    webroot = "/var/lib/acme/acme-challenges";
+    postRun = "systemctl restart murmur";
+    user = "murmur";
+  };
 }

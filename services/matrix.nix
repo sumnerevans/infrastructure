@@ -36,9 +36,7 @@ in {
 
       # Or do a redirect instead of the 404, or whatever is appropriate for you.
       # But do not put a Matrix Web client here! See the Riot Web section below.
-      locations."/".extraConfig = ''
-        return 404;
-      '';
+      locations."/".extraConfig = "return 404;";
 
       # forward all Matrix API calls to the synapse Matrix homeserver
       locations."/_matrix" = {
