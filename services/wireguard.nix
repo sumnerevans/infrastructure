@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   networking.wg-quick.interfaces.wg0 = {
     address = [ "10.100.100.1/24" ];
+    privateKey = "ohea"; # TODO change this to the correct one.
     peers = [
       {
         # jedha

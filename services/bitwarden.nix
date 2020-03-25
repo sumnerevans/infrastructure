@@ -7,7 +7,7 @@
       rocketLog = "critical";
       rocketPort = 8222;
       signupsAllowed = false;
-      websocketAddress = 0.0.0.0;
+      websocketAddress = "0.0.0.0";
       websocketEnabled = true;
       websocketPort = 3012;
     };
