@@ -164,7 +164,7 @@ droplet = digitalocean.Droplet(
     region=region,
     size_slug=size,
     ssh_keys=keys_to_use,
-    tags=['web-server', 'wireguard'],
+    tags=[],
     token=token,
     user_data=user_data,
 )

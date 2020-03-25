@@ -12,21 +12,23 @@
   ];
 
   # Keep the system up-to-date automatically.
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
-  system.autoUpgrade.dates = "09:00"; # 09:00 UTC = 02:00 or 03:00 (MST/MDT)
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+    dates = "09:00"; # 09:00 UTC = 02:00 or 03:00 (MST/MDT)
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "10:00"; # 10:00 UTC = 03:00 or 04:00 (MST/MDT)
+    options = "--delete-older-than 30d";
+  };
 
   # All users must be added declaritively.
   users.mutableUsers = false;
 
-  # Network configuration.
-  networking = {
-    domain = "sumnerevans.com";
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 64738 ];
-      allowedUDPPorts = [ 64738 ];
-    };
-  };
+  # Domain name.
+  networking.domain = "sumnerevans.com";
 
   # Allow GitLab CI/CD to SSH in and upgrade the server.
   users.users.root.openssh.authorizedKeys.keys = [
