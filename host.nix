@@ -5,6 +5,7 @@
   environment.systemPackages = with pkgs; [
     git
     htop
+    openssl
     tree
     unzip
     vim

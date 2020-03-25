@@ -9,6 +9,7 @@ Environment variables:
 import os
 import sys
 import subprocess
+from pathlib import Path
 
 import digitalocean
 
@@ -108,22 +109,29 @@ if not image:
         default='ubuntu-16-04-x64',
     ).slug
 
-secrets_password = os.environ.get('SECRETS_PASSWORD')
-if not secrets_password:
-    secret_path = input(
-        'Enter the path to the Infrastructure Secrets Key in pass: ')
-    secrets_password = subprocess.run(
-        ['pass', secret_path],
-        capture_output=True,
-    ).stdout.decode().strip()
+# Extract all of the secrets and create runcmds for the initial sync.
+cwd = Path(__file__).parent.resolve()
+subprocess.run(
+    [str(cwd.joinpath('secrets_file_manager.sh')), 'extract'],
+    capture_output=True,
+)
+secrets = cwd.joinpath('secrets')
+secrets_runcmds = []
+for path in secrets.iterdir():
+    with open(path, 'r') as f:
+        secret = f.readline().strip()
+    secrets_runcmds.append(
+        f'  - echo "{secret}" > /etc/nixos/secrets/{path.name}')
+
+secrets_runcmds = '\n'.join(secrets_runcmds)
 
 user_data = f'''#cloud-config
 
 runcmd:
   - apt install -y git
   - git clone https://gitlab.com/sumner/infrastructure.git /etc/nixos
-  - echo "{secrets_password}" > .secrets_password_file
-  - ./secrets_file_manager.sh extract
+  - mkdir -p /etc/nixos/secrets
+{secrets_runcmds}
   - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-19.09 bash 2>&1 | tee /tmp/infect.log
 '''
 
