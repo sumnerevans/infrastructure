@@ -2,7 +2,7 @@
 set -e
 
 # Dependencies
-apk update && apk upgrade && apk add openssh rsync openssl
+apk add openssh rsync openssl
 
 # Known Hosts
 mkdir -p ${HOME}/.ssh
