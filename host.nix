@@ -3,6 +3,7 @@
 
   # General packages for system maintenance.
   environment.systemPackages = with pkgs; [
+    bind
     git
     htop
     openssl
