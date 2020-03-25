@@ -12,7 +12,7 @@ echo "============================="
 echo "$SECRETS_PASSWORD" > .secrets_password_file
 ./secrets_file_manager.sh extract
 rsync -vr --delete-after secrets/ root@deploy.sumnerevans.com:/etc/nixos/secrets
-rm -rf .secrets_password_file
+rm -rf .secrets_password_file secrets
 
 echo "SSH into the server and switch to this commit"
 echo "============================================="

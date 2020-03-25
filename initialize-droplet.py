@@ -39,10 +39,16 @@ def prompt_select(prompt, options, formatter, multiple=False, default=None):
 
             if len(result) == 0:
                 if default:
-                    return options[default_idx]
+                    if multiple:
+                        return [options[default_idx]]
+                    else:
+                        return options[default_idx]
                 continue
             elif len(result) == 1:
-                return options[list(result)[0]]
+                if multiple:
+                    return [options[list(result)[0]]]
+                else:
+                    return options[list(result)[0]]
             elif multiple is False:
                 continue
             else:
@@ -67,6 +73,18 @@ token = (os.environ.get('DIGITALOCEAN_ACCESS_TOKEN')
 
 print(f'Using Access Token: {token}')
 manager = digitalocean.Manager(token=token)
+
+ips = manager.get_all_floating_ips()
+floating_ip_str = os.environ.get('DROPLET_FLOATING_IP')
+floating_ip_to_use = None if not floating_ip_str else [
+    i for i in ips if i.ip == floating_ip_str
+][0]
+if not floating_ip_to_use:
+    floating_ip_to_use = prompt_select(
+        'Which floating IP do you want to assign to the droplet?',
+        ips,
+        lambda i: str(i),
+    )
 
 # Prompt for the keys to auto-add to the droplet.
 keys_to_use = prompt_select(
@@ -146,6 +164,9 @@ A droplet named "{name}" with initial image of "{image}" and size
 The following SSH keys will be able to access the machine:
     { ', '.join(map(lambda k: k.name, keys_to_use))}
 
+The following floating IP will be assigned to the machine:
+    {floating_ip_to_use.ip}
+
 It will be configured with the following cloud configuration:
 
 {user_data}''')
@@ -171,4 +192,6 @@ droplet = digitalocean.Droplet(
 
 print('Creating...', end=' ')
 droplet.create()
+floating_ip_to_use.assign(droplet.id)
+
 print('DONE')

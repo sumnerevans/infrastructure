@@ -20,8 +20,9 @@ in {
     allowedUDPPorts = [ 64738 ];
   };
 
-  # Use nginx to do the ACME verification for mumble. Just 404 if
-  services.nginx.virtualHosts."mumble.sumnerevans.com" = {
+  # Use nginx to do the ACME verification for mumble.
+  services.nginx.virtualHosts."${serverName}" = {
+    locations."/".extraConfig = "return 301 https://mumble.info;";
     locations."/.well-known/acme-challenge".root = "/var/lib/acme/acme-challenges";
   };
 
