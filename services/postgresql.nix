@@ -1,9 +1,10 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
   services.postgresql.enable = true;
 
+  # Run backup every 3 hours.
   services.postgresqlBackup = {
     enable = true;
     backupAll = true;
-    startAt = "*-*-* 11:00:00"; # 11:00 UTC = 04:00 or 05:00 (MST/MDT)
+    startAt = "0/3:0";  # systemd-analyze calendar "0/3:0"
   };
 }

@@ -1,5 +1,5 @@
 # See: https://nixos.org/nixos/manual/index.html#module-services-matrix-synapse
-{ pkgs, config, ... }:
+{ config, pkgs, ... }:
 let
   matrixDomain = "matrix.${config.networking.domain}";
   riotDomain = "riot.${config.networking.domain}";

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ lib, pkgs, ... }: {
   # Need to have NAT to be able to forward on things like a VPN endpoint.
   networking.nat = {
     enable = true;
