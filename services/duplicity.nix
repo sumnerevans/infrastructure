@@ -2,6 +2,9 @@
 # https://github.com/NixOS/nixpkgs/blob/release-19.09/nixos/modules/services/backup/duplicity.nix
 # But I wanted services per folder to backup.
 { lib, pkgs, ... }: with lib; let
+  # TODO make this actually work.
+  # - Get the GPG key in here
+  # - https://github.com/NixOS/nixpkgs/pull/78116
   duplicitySignEncryptArgs =
     "--sign-key $SIGN_KEY --encrypt-key $ENCRYPT_KEY";
 

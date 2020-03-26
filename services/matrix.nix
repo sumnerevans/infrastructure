@@ -8,7 +8,7 @@ in {
   services.matrix-synapse = {
     enable = true;
     enable_metrics = true;
-    enable_registration = true;
+    enable_registration = false;
     server_name = config.networking.domain;
     listeners = [
       {
