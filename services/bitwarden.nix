@@ -6,7 +6,7 @@
       rocketAddress = "0.0.0.0";
       rocketLog = "critical";
       rocketPort = 8222;
-      signupsAllowed = true;
+      signupsAllowed = false;
       websocketAddress = "0.0.0.0";
       websocketEnabled = true;
       websocketPort = 3012;
