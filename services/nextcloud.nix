@@ -17,8 +17,8 @@
     autoUpdateApps.enable = true;
   };
 
+  # Make the Nextcloud database.
   services.postgresql = {
-    enable = true;
     ensureDatabases = [ "nextcloud" ];
     ensureUsers = [
       {

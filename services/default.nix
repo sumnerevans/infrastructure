@@ -6,6 +6,7 @@
   ./mumble.nix
   ./nextcloud.nix
   ./nginx.nix
+  ./postgresql.nix
   ./quassel.nix
   ./wireguard.nix
 ]
