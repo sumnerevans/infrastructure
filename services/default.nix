@@ -2,6 +2,7 @@
   ./airsonic.nix
   ./bitwarden.nix
   ./duplicity.nix
+  ./isso.nix
   ./matomo.nix
   ./matrix.nix
   ./mumble.nix
