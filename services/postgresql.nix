@@ -11,6 +11,5 @@
   # Add a backup service.
   services.backup.postgresql = {
     root = config.services.postgresqlBackup.location;
-    bucket = "test-scarif-backup";
   };
 }

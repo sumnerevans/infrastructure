@@ -35,6 +35,5 @@
   # Add a backup service.
   services.backup.bitwarden = {
     root = config.services.bitwarden_rs.config.dataFolder;
-    bucket = "test-scarif-backup";
   };
 }

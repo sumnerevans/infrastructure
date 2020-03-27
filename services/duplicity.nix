@@ -12,6 +12,7 @@
 
       bucket = mkOption {
         type = types.str;
+        default = "test-scarif-backup";
         description = "The B2 bucket name to back up to.";
       };
 
@@ -96,7 +97,7 @@ in {
   options = {
     services.backup = mkOption {
       default = {};
-      type = with types; attrsOf (submodule backupDirOpts );
+      type = with types; attrsOf (submodule backupDirOpts);
       description = "Definition directories to backup.";
     };
   };

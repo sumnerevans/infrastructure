@@ -1,6 +1,9 @@
 { pkgs, ... }: {
-  # Install the matomo package.
-  environment.systemPackages = with pkgs; [
-    matomo
-  ];
+  services.matomo = {
+    enable = true;
+    nginx = {
+      serverName = "matomo.sumnerevans.com";
+      onlySSL = true;
+    };
+  };
 }

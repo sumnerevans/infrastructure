@@ -16,8 +16,7 @@
 
   # Add a backup service.
   services.backup.airsonic = {
-    root = "/var/airsonic/music";
-    bucket = "test-scarif-backup";
+    root = "/var/lib/airsonic/music";
     folder = "music";
   };
 }
