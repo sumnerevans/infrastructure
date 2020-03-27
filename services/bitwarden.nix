@@ -36,9 +36,8 @@ in {
   };
 
   # Add a backup service.
-  services.backup.database = {
+  services.backup.bitwarden = {
     root = backupDir;
     bucket = "test-scarif-backup";
-    folder = "bitwarden";
   };
 }

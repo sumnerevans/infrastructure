@@ -17,6 +17,7 @@
 
       folder = mkOption {
         type = types.str;
+        default = name;
         description = "The folder in the B2 bucket to back up to.";
       };
 
@@ -68,24 +69,27 @@
         ${b2BucketDescriptor}
   '';
   duplicityHome = "/var/lib/duplicity";
-  duplicityBackupService = { root, bucket, folder, frequency ? "0/3:0", ... }: {
-    description = "Backup ${root} to ${bucket}";
-    environment = {
-      HOME = duplicityHome;
-      ROOT = root;
-      BUCKET = bucket;
-      FOLDER = folder;
-    };
-    startAt = frequency;
-    path = [ pkgs.backblaze-b2 ];
-    serviceConfig = {
-      ExecStart = ''
-        ${duplicityBackupScript}/bin/duplicity-backup
-      '';
-      EnvironmentFile = "/etc/nixos/secrets/duplicity-environment-variables";
-      PrivateTmp = true;
-      ProtectSystem = true;
-      ProtectHome = "read-only";
+  duplicityBackupService = name: { root, bucket, folder, frequency, ... }: {
+    name = "backup-${name}";
+    value = {
+      description = "Backup ${root} to ${bucket}";
+      environment = {
+        HOME = duplicityHome;
+        ROOT = root;
+        BUCKET = bucket;
+        FOLDER = folder;
+      };
+      startAt = frequency;
+      path = [ pkgs.backblaze-b2 ];
+      serviceConfig = {
+        ExecStart = ''
+          ${duplicityBackupScript}/bin/duplicity-backup
+        '';
+        EnvironmentFile = "/etc/nixos/secrets/duplicity-environment-variables";
+        PrivateTmp = true;
+        ProtectSystem = true;
+        ProtectHome = "read-only";
+      };
     };
   };
 in {
@@ -99,10 +103,7 @@ in {
   config = mkIf (cfg != { }) {
     systemd = {
       services = let
-        directoryBackupConfig = mapAttrsToList (name: data: {
-            name = "backup-${name}";
-            value = duplicityBackupService data;
-          }) cfg;
+        directoryBackupConfig = mapAttrsToList duplicityBackupService cfg;
       in
         listToAttrs directoryBackupConfig;
     };
