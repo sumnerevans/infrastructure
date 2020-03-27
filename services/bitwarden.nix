@@ -34,6 +34,6 @@
 
   # Add a backup service.
   services.backup.bitwarden = {
-    root = config.services.bitwarden_rs.config.dataFolder;
+    root = "/var/lib/bitwarden_rs";
   };
 }

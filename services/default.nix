@@ -1,4 +1,5 @@
 [
+  ./acme.nix
   ./airsonic.nix
   ./bitwarden.nix
   ./duplicity.nix
