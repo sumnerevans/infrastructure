@@ -19,6 +19,7 @@
     dates = "09:00"; # 09:00 UTC = 02:00 or 03:00 (MST/MDT)
   };
 
+  # Garbage collect the old generations.
   nix.gc = {
     automatic = true;
     dates = "10:00"; # 10:00 UTC = 03:00 or 04:00 (MST/MDT)
@@ -30,6 +31,15 @@
 
   # Domain name.
   networking.domain = "sumnerevans.com";
+
+  # Enable a lot of swap since we have enough disk. This way, if Airsonic eats
+  # memory, it won't crash the box.
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 4096;
+    }
+  ];
 
   # Allow GitLab CI/CD to SSH in and upgrade the server.
   users.users.root.openssh.authorizedKeys.keys = [
