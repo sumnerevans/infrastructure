@@ -1,9 +1,6 @@
-{ pkgs, ... }: let
-  backupDir = "/var/backup/bitwarden_rs";
-in {
+{ config, pkgs, ... }: {
   services.bitwarden_rs = {
     enable = true;
-    backupDir = backupDir;
     config = {
       domain = "https://bitwarden.sumnerevans.com";
       rocketAddress = "0.0.0.0";
@@ -37,7 +34,7 @@ in {
 
   # Add a backup service.
   services.backup.bitwarden = {
-    root = backupDir;
+    root = config.services.bitwarden_rs.config.dataFolder;
     bucket = "test-scarif-backup";
   };
 }
