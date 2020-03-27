@@ -2,7 +2,7 @@
   # Create the airsonic service.
   services.airsonic = {
     enable = true;
-    maxMemory = 1024;
+    maxMemory = 700;
     virtualHost = "airsonic.sumnerevans.com";
   };
 
