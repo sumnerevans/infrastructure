@@ -11,7 +11,7 @@
   # Add a backup service.
   services.backup.database = {
     root = "/var/backup/postgresql";
-    bucket = "scarif-database-backup";
+    bucket = "test-scarif-backup";
     folder = "postgresql";
   };
 }

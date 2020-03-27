@@ -13,4 +13,11 @@
       enableACME = true;
     };
   };
+
+  # Add a backup service.
+  services.backup.database = {
+    root = "/var/airsonic/music";
+    bucket = "test-scarif-backup";
+    folder = "music";
+  };
 }
