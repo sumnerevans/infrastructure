@@ -1,6 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }: let
+  backupDir = "/var/backup/bitwarden_rs";
+in {
   services.bitwarden_rs = {
     enable = true;
+    backupDir = backupDir;
     config = {
       domain = "https://bitwarden.sumnerevans.com";
       rocketAddress = "0.0.0.0";
@@ -13,7 +16,7 @@
     };
   };
 
-  # Enable a status page and expose it.
+  # Reverse proxy Bitwarden.
   services.nginx.virtualHosts."bitwarden.sumnerevans.com" = {
     forceSSL= true;
     enableACME = true;
@@ -30,5 +33,12 @@
         proxyPass = "http://127.0.0.1:8222";
       };
     };
+  };
+
+  # Add a backup service.
+  services.backup.database = {
+    root = backupDir;
+    bucket = "test-scarif-backup";
+    folder = "bitwarden";
   };
 }

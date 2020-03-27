@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   services.postgresql.enable = true;
 
   # Run backup every 3 hours.
@@ -10,7 +10,7 @@
 
   # Add a backup service.
   services.backup.database = {
-    root = "/var/backup/postgresql";
+    root = config.services.postgresqlBackup.location;
     bucket = "test-scarif-backup";
     folder = "postgresql";
   };
