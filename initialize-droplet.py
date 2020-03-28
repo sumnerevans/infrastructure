@@ -14,7 +14,14 @@ from pathlib import Path
 import digitalocean
 
 
-def prompt_select(prompt, options, formatter, multiple=False, default=None):
+def prompt_select(
+    prompt,
+    options,
+    formatter,
+    multiple=False,
+    default=None,
+    allow_none=False,
+):
     options = list(options)
     while True:
         print()
@@ -43,6 +50,8 @@ def prompt_select(prompt, options, formatter, multiple=False, default=None):
                         return [options[default_idx]]
                     else:
                         return options[default_idx]
+                elif allow_none:
+                    return None
                 continue
             elif len(result) == 1:
                 if multiple:
@@ -84,6 +93,7 @@ if not floating_ip_to_use:
         'Which floating IP do you want to assign to the droplet?',
         ips,
         lambda i: str(i),
+        allow_none=True,
     )
 
 # Prompt for the keys to auto-add to the droplet.
@@ -153,6 +163,12 @@ runcmd:
   - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-unstable bash 2>&1 | tee /tmp/infect.log
 '''
 
+floating_ip_text = '\n' if not floating_ip_to_use else f'''
+The following floating IP will be assigned to the machine:
+    {floating_ip_to_use.ip}
+
+'''
+
 print()
 print('=' * 80)
 print('SUMMARY:')
@@ -163,10 +179,7 @@ A droplet named "{name}" with initial image of "{image}" and size
 
 The following SSH keys will be able to access the machine:
     { ', '.join(map(lambda k: k.name, keys_to_use))}
-
-The following floating IP will be assigned to the machine:
-    {floating_ip_to_use.ip}
-
+{floating_ip_text}
 It will be configured with the following cloud configuration:
 
 {user_data}''')
@@ -192,6 +205,8 @@ droplet = digitalocean.Droplet(
 
 print('Creating...', end=' ')
 droplet.create()
-floating_ip_to_use.assign(droplet.id)
+
+if floating_ip_to_use:
+    floating_ip_to_use.assign(droplet.id)
 
 print('DONE')

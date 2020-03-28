@@ -73,7 +73,7 @@
   duplicityBackupService = name: { root, bucket, folder, frequency, ... }: {
     name = "backup-${name}";
     value = {
-      description = "Backup ${root} to ${bucket}";
+      description = "Backup ${root} to ${bucket}/${folder}";
       environment = {
         HOME = duplicityHome;
         ROOT = root;
