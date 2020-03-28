@@ -34,7 +34,13 @@ def prompt_select(
         print()
 
         try:
-            how_many = 'any' if multiple else 'one'
+            how_many = {
+                (True, True): 'zero or more',
+                (True, False): 'one or more',
+                (False, True): 'zero or one',
+                (False, False): 'one',
+            }[(multiple, allow_none)]
+
             result = set(
                 map(
                     int,
@@ -147,9 +153,13 @@ secrets = cwd.joinpath('secrets')
 secrets_runcmds = []
 for path in secrets.iterdir():
     with open(path, 'r') as f:
-        secret = f.readline().strip()
-    secrets_runcmds.append(
-        f'  - echo "{secret}" > /etc/nixos/secrets/{path.name}')
+        lines = [
+            l.strip().replace('"', r'\"').replace('`', r'\`')
+            for l in f.readlines()
+        ]
+        for line in lines:
+            secrets_runcmds.append(
+                f'  - echo "{line}" >> /etc/nixos/secrets/{path.name}')
 
 secrets_runcmds = '\n'.join(secrets_runcmds)
 
@@ -166,7 +176,6 @@ runcmd:
 floating_ip_text = '\n' if not floating_ip_to_use else f'''
 The following floating IP will be assigned to the machine:
     {floating_ip_to_use.ip}
-
 '''
 
 print()

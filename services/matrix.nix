@@ -27,6 +27,16 @@ in {
     ];
   };
 
+  services.postgresql = {
+    ensureDatabases = [ "matrix-synapse" ];
+    ensureUsers = [
+      {
+        name = "matrix-synapse";
+        ensurePermissions."DATABASE matrix-synapse" = "ALL PRIVILEGES";
+      }
+    ];
+  };
+
   # Set up nginx to forward requests properly.
   services.nginx.virtualHosts = {
     # Reverse proxy for Matrix client-server and server-server communication
