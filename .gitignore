@@ -1,3 +1,7 @@
+configuration.nix
+hardware-configuration.nix
+networking.nix
+result/
 secrets/
 secrets.tar
 .secrets_password_file
