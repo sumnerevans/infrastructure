@@ -2,6 +2,7 @@
   services.nginx = {
     enable = true;
     enableReload = true;
+    clientMaxBodySize = "250m";
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
