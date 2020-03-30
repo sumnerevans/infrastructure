@@ -4,6 +4,7 @@ in {
   services.matomo = {
     enable = true;
     nginx.serverName = "matomo.sumnerevans.com";
+    periodicArchiveProcessing = false;
   };
 
   services.mysql = {

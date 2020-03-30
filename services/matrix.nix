@@ -32,7 +32,7 @@ in {
     ensureUsers = [
       {
         name = "matrix-synapse";
-        ensurePermissions."DATABASE matrix-synapse" = "ALL PRIVILEGES";
+        ensurePermissions."DATABASE \"matrix-synapse\"" = "ALL PRIVILEGES";
       }
     ];
   };

@@ -37,6 +37,7 @@
   # TODO make this actually work.
   # - Get the GPG key in here
   # - https://github.com/NixOS/nixpkgs/pull/78116
+  # - https://github.com/NixOS/nixpkgs/issues/80684
   duplicitySignEncryptArgs =
     "--sign-key $SIGN_KEY --encrypt-key $ENCRYPT_KEY";
 
@@ -101,12 +102,15 @@ in {
       description = "Definition directories to backup.";
     };
   };
-  config = mkIf (cfg != { }) {
-    systemd = {
-      services = let
-        directoryBackupConfig = mapAttrsToList duplicityBackupService cfg;
-      in
-        listToAttrs directoryBackupConfig;
-    };
-  };
+
+  # TODO make this actually work
+  config = {};
+  # config = mkIf (cfg != { }) {
+  #   systemd = {
+  #     services = let
+  #       directoryBackupConfig = mapAttrsToList duplicityBackupService cfg;
+  #     in
+  #       listToAttrs directoryBackupConfig;
+  #   };
+  # };
 }
