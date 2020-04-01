@@ -4,12 +4,16 @@
   # General packages for system maintenance.
   environment.systemPackages = with pkgs; [
     bind
+    fd
     git
     htop
     openssl
+    ripgrep
+    tmux
     tree
     unzip
     vim
+    zsh
   ];
 
   # Keep the system up-to-date automatically.
