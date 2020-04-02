@@ -12,5 +12,6 @@
   ./nginx.nix
   ./postgresql.nix
   ./quassel.nix
+  ./thelounge.nix
   ./wireguard.nix
 ]

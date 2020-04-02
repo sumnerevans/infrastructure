@@ -53,6 +53,7 @@ in {
     };
   };
 
+  users.groups.isso = {};
   users.users.isso = {
     description = "Isso server user";
     group = "isso";
