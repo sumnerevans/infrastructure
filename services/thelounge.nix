@@ -1,4 +1,6 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: let
+  serverName = "irc.sumnerevans.com";
+in {
   services.thelounge = {
     enable = true;
     private = true;
@@ -21,7 +23,7 @@
 
   # Set up nginx to forward requests properly.
   services.nginx.virtualHosts = {
-    "lounge.sumnerevans.com" = {
+    "irc.sumnerevans.com" = {
       enableACME = true;
       forceSSL = true;
 
@@ -29,4 +31,3 @@
     };
   };
 }
-
