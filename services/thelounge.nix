@@ -14,6 +14,11 @@
     };
   };
 
+  users.users.thelounge = {
+    useDefaultShell = true;
+    home = "/var/lib/thelounge";
+  };
+
   # Set up nginx to forward requests properly.
   services.nginx.virtualHosts = {
     "lounge.sumnerevans.com" = {
