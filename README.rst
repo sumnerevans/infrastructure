@@ -1,17 +1,20 @@
 Personal Infrastructure
 #######################
 
-Things I Need to Run
-====================
+Things I Run
+============
 
-* Airsonic
-* Nextcloud
-* Wireguard
-* Mumble Server
-* Bitwarden (rs version, probably)
-* Matrix
-* Matomo
-* IRSSI/QUASSEL
+* `Airsonic <https://airsonic.github.io/>`_
+* `Bitwarden RS <https://github.com/dani-garcia/bitwarden_rs>`_
+* `Isso <https://posativ.org/isso/>`_
+* `Matomo <https://matomo.org/>`_
+* `Synapse <https://github.com/matrix-org/synapse>`_ for `Matrix
+  <https://matrix.org`_
+* `Murmur for Mumble <https://www.mumble.info/>`_
+* `Nextcloud <https://nextcloud.com>`_
+* `Quassel <https://quassel-irc.org/>`_
+* `The Lounge <https://thelounge.chat/>`_
+* `Wireguard <https://www.wireguard.com/>`_
 
 Goals
 =====
@@ -56,14 +59,3 @@ Things that need to be setup by scripts
 * Nextcloud user
 * Nextcloud apps
 * Nextcloud data
-
-Things that need secrets
-========================
-
-* Airsonic admin password
-* Airsonic sumner password
-* Bitwarden password
-* Synapse user password
-* Mumble SuperUser password
-* Nextcloud admin password
-* Wireguard private keys and preshared keys
