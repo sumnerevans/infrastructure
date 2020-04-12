@@ -16,6 +16,6 @@
 
   # Add a backup service.
   services.backup.backups.airsonic = {
-    path = "/var/lib/airsonic/music";
+    path = "/var/lib/airsonic";
   };
 }
