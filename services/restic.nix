@@ -79,7 +79,7 @@
     value = {
       description = "Backup ${concatStringsSep ", " paths} to ${resticRepository}";
       environment = resticEnvironment;
-      # startAt = frequency;
+      startAt = frequency;
       serviceConfig = {
         ExecStart = "${script}/bin/restic-backup";
         EnvironmentFile = resticEnvironmentFile;
