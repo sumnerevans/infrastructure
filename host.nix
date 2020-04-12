@@ -9,6 +9,7 @@
     htop
     neovim
     openssl
+    restic
     ripgrep
     tmux
     tree
