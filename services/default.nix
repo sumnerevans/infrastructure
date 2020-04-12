@@ -2,7 +2,6 @@
   ./acme.nix
   ./airsonic.nix
   ./bitwarden.nix
-  ./duplicity.nix
   ./isso.nix
   ./matomo.nix
   ./matrix.nix
@@ -12,6 +11,7 @@
   ./nginx.nix
   ./postgresql.nix
   ./quassel.nix
+  ./restic.nix
   ./thelounge.nix
   ./wireguard.nix
 ]

@@ -33,7 +33,7 @@
   };
 
   # Add a backup service.
-  services.backup.bitwarden = {
-    root = "/var/lib/bitwarden_rs";
+  services.backup.backups.bitwarden = {
+    path = "/var/lib/bitwarden_rs";
   };
 }

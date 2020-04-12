@@ -11,7 +11,7 @@
   };
 
   # Add a backup service.
-  services.backup.mysql = {
-    root = config.services.mysqlBackup.location;
+  services.backup.backups.mysql = {
+    path = config.services.mysqlBackup.location;
   };
 }

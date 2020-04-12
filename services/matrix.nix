@@ -47,10 +47,9 @@ in {
       # If they access root, redirect to Riot. If they access the API, then
       # forward on to Synapse.
       locations."/".extraConfig = "return 301 https://riot.sumnerevans.com;";
-      locations."/_matrix".extraConfig = ''
-        proxy_pass http://localhost:8008;
-        proxy_set_header X-Forwarded-For $remote_addr;
-      '';
+      locations."/_matrix" = {
+        proxyPass = "http://[::1]:8008"; # without a trailing /
+      };
     };
 
     ${riotDomain} = {

@@ -9,7 +9,7 @@
   };
 
   # Add a backup service.
-  services.backup.postgresql = {
-    root = config.services.postgresqlBackup.location;
+  services.backup.backups.postgresql = {
+    path = config.services.postgresqlBackup.location;
   };
 }

@@ -29,6 +29,5 @@ in {
   security.acme.certs."${serverName}" = {
     webroot = "/var/lib/acme/acme-challenges";
     postRun = "systemctl restart murmur";
-    user = "murmur";
   };
 }

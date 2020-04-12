@@ -20,7 +20,7 @@ ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard 
 
 echo "Running nixos-rebuild build..."
 echo "=============================="
-ssh root@deploy.sumnerevans.com "nixos-rebuild build"
+ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace"
 
 echo "Switch to the new generation..."
 echo "==============================="
