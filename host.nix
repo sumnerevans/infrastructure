@@ -22,7 +22,7 @@
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;
-    dates = "09:00"; # 09:00 UTC = 02:00 or 03:00 (MST/MDT)
+    dates = "monthly";
   };
 
   # Garbage collect the old generations.
