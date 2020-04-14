@@ -27,6 +27,7 @@
   resticEnvironment = {
     RESTIC_PASSWORD_FILE = resticPasswordFile;
     RESTIC_REPOSITORY = resticRepository;
+    RESTIC_CACHE_DIR = "/var/cache";
   };
 
   # Scripts
