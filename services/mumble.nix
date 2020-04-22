@@ -28,6 +28,9 @@ in {
   };
 
   security.acme.certs."${serverName}" = {
-    postRun = "systemctl restart murmur";
+    postRun = ''
+      chown -R murmur ${certs.${serverName}.directory}
+      systemctl restart murmur
+    '';
   };
 }
