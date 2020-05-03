@@ -35,6 +35,9 @@
   resticBackupScript = paths: exclude: pkgs.writeScriptBin "restic-backup" ''
     #!${pkgs.stdenv.shell}
 
+    set -xe
+    ${pkgs.curl}/bin/curl -fsS --retry 3 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed/start
+
     # Perfrom the backup
     ${resticCmd} backup \
       ${concatStringsSep " " paths} \

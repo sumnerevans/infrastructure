@@ -28,7 +28,7 @@
         publicKey = "z2sm3HzY+9+7+lT9rt2Ny7fTxbDVMJv4+jZ3eFlyUCc=";
       }
       {
-        # iPad
+        # iPad Pro
         allowedIPs = [ "192.168.69.4/32" ];
         presharedKeyFile = "/etc/nixos/secrets/wireguard-ipad-presharedkey";
         publicKey = "4qHoCiAVYm2kR6Ak4PaEpdUeRJ/oJDlVQvR8Axffv2U=";
