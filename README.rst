@@ -9,7 +9,7 @@ Things I Run
 * `Isso <https://posativ.org/isso/>`_
 * `Matomo <https://matomo.org/>`_
 * `Synapse <https://github.com/matrix-org/synapse>`_ for `Matrix
-  <https://matrix.org`_
+  <https://matrix.org>`_
 * `Murmur for Mumble <https://www.mumble.info/>`_
 * `Nextcloud <https://nextcloud.com>`_
 * `Quassel <https://quassel-irc.org/>`_

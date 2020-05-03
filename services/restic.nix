@@ -55,6 +55,9 @@
     ${resticCmd} snapshots
     ${resticCmd} stats
     ${resticCmd} check
+
+    # Ping healthcheck.io
+    ${pkgs.curl}/bin/curl -fsS --retry 3 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed
   '';
 
   resticAutoRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
