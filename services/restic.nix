@@ -36,7 +36,7 @@
     #!${pkgs.stdenv.shell}
 
     set -xe
-    ${pkgs.curl}/bin/curl -fsS --retry 3 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed/start
+    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed/start
 
     # Perfrom the backup
     ${resticCmd} backup \
@@ -60,7 +60,7 @@
     ${resticCmd} check
 
     # Ping healthcheck.io
-    ${pkgs.curl}/bin/curl -fsS --retry 3 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed
+    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed
   '';
 
   resticAutoRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
