@@ -55,8 +55,6 @@
       --keep-yearly 10
 
     # Print some details about the repository.
-    ${resticCmd} snapshots
-    ${resticCmd} stats
     ${resticCmd} check
 
     # Ping healthcheck.io
