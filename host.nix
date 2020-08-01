@@ -6,6 +6,7 @@
     bind
     fd
     git
+    gnupg
     htop
     neovim
     openssl
