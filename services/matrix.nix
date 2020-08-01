@@ -2,7 +2,6 @@
 { config, pkgs, ... }:
 let
   matrixDomain = "matrix.${config.networking.domain}";
-  elementDomain = "element.${config.networking.domain}";
 in {
   # Run Synapse
   services.matrix-synapse = {
@@ -46,16 +45,10 @@ in {
 
       # If they access root, redirect to Element. If they access the API, then
       # forward on to Synapse.
-      locations."/".extraConfig = "return 301 https://element.sumnerevans.com;";
+      locations."/".extraConfig = "return 301 https://app.element.io;";
       locations."/_matrix" = {
         proxyPass = "http://[::1]:8008"; # without a trailing /
       };
-    };
-
-    ${elementDomain} = {
-      enableACME = true;
-      forceSSL = true;
-      root = pkgs.element-web;
     };
   };
 }

@@ -2,7 +2,7 @@
   ./acme.nix
   ./airsonic.nix
   ./bitwarden.nix
-  ./isso.nix
+  # ./isso.nix
   ./matomo.nix
   ./matrix.nix
   ./mumble.nix
