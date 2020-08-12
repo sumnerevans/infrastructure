@@ -24,4 +24,9 @@ in {
       };
     };
   };
+
+  # Add a backup service.
+  services.backup.backups.xandikos = {
+    path = "/var/lib/private/xandikos";
+  };
 }
