@@ -14,4 +14,5 @@
   ./restic.nix
   ./thelounge.nix
   ./wireguard.nix
+  ./xandikos.nix
 ]

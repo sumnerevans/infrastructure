@@ -1,8 +1,10 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: let
+  serverName = "bitwarden.sumnerevans.com";
+in {
   services.bitwarden_rs = {
     enable = true;
     config = {
-      domain = "https://bitwarden.sumnerevans.com";
+      domain = "https://${serverName}";
       rocketAddress = "0.0.0.0";
       rocketLog = "critical";
       rocketPort = 8222;
@@ -14,7 +16,7 @@
   };
 
   # Reverse proxy Bitwarden.
-  services.nginx.virtualHosts."bitwarden.sumnerevans.com" = {
+  services.nginx.virtualHosts."${serverName}" = {
     forceSSL= true;
     enableACME = true;
     locations = {

@@ -23,7 +23,7 @@ in {
 
   # Set up nginx to forward requests properly.
   services.nginx.virtualHosts = {
-    "irc.sumnerevans.com" = {
+    "${serverName}" = {
       enableACME = true;
       forceSSL = true;
 
