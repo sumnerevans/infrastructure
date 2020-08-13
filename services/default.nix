@@ -7,7 +7,6 @@
   ./matrix.nix
   ./mumble.nix
   ./mysql.nix
-  ./nextcloud.nix
   ./nginx.nix
   ./postgresql.nix
   ./quassel.nix
