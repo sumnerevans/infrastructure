@@ -4,7 +4,6 @@ in {
   services.xandikos = {
     enable = true;
     extraOptions = [
-      "--defaults"
       "--current-user-principal /sumner/"
     ];
 
