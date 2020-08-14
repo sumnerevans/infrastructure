@@ -17,10 +17,11 @@
   bucket = "test-scarif-backup";
   repoPath = config.networking.hostName;
   frequency = "0/1:0"; # Run backup every hour
-  pruneFrequency = "daily"; # Run prune every day
+  pruneFrequency = "00:15"; # Run prune every day a few minutes after midnight to not interfere with hourly backup
   resticPasswordFile = "/etc/nixos/secrets/restic-password";
   resticEnvironmentFile = "/etc/nixos/secrets/restic-environment-variables";
   resticRepository = "b2:${bucket}:${repoPath}";
+  # TODO be able to restore from a different repo path
 
   resticCmd = "${pkgs.restic}/bin/restic";
 
