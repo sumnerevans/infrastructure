@@ -54,6 +54,8 @@
     #!${pkgs.stdenv.shell}
     set -xe
 
+    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/14ed7839-784f-4dee-adf2-f9e03c2b611e/start
+
     # Remove old backup sets. Keep hourly backups from the past day, daily
     # backups for the past month, weekly backups for the last 3 months, monthly
     # backups for the last year, and yearly backups for the last decade.
@@ -64,6 +66,9 @@
       --keep-weekly 12 \
       --keep-monthly 12 \
       --keep-yearly 10
+
+    # Ping healthcheck.io
+    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/14ed7839-784f-4dee-adf2-f9e03c2b611e
   '';
 
   resticAutoRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
