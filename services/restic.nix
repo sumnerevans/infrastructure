@@ -4,9 +4,8 @@
 # 1. It exposes a very simple interface to the other modules where they can
 #    just specify a directory that needs to be backed up.
 # 2. Each folder that's backed up by this service is backed up to B2.
-# 3. After each backup, I forget old snapshots and prune.
-# 4. After each backup, I print the statistics of the repository and check it's
-#    validity.
+# 3. After each backup, I check it's validity.
+# 4. I forget old snapshots and prune every day.
 # 5. It creates a new service for each of the configured backup paths that is
 #    run at startup. If a special `.restic-backup-restored` file does not exist
 #    in that directory, it will restore all data from B2 to that directory.
@@ -18,6 +17,7 @@
   bucket = "test-scarif-backup";
   repoPath = config.networking.hostName;
   frequency = "0/1:0"; # Run backup every hour
+  pruneFrequency = "daily"; # Run prune every day
   resticPasswordFile = "/etc/nixos/secrets/restic-password";
   resticEnvironmentFile = "/etc/nixos/secrets/restic-environment-variables";
   resticRepository = "b2:${bucket}:${repoPath}";
@@ -34,14 +34,25 @@
   # ===========================================================================
   resticBackupScript = paths: exclude: pkgs.writeScriptBin "restic-backup" ''
     #!${pkgs.stdenv.shell}
-
     set -xe
+
     ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed/start
 
     # Perfrom the backup
     ${resticCmd} backup \
       ${concatStringsSep " " paths} \
       ${concatMapStringsSep " " (e: "-e \"${e}\"") exclude}
+
+    # Check the validity of the repository.
+    ${resticCmd} check
+
+    # Ping healthcheck.io
+    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed
+  '';
+
+  resticPruneScript = pkgs.writeScriptBin "restic-prune" ''
+    #!${pkgs.stdenv.shell}
+    set -xe
 
     # Remove old backup sets. Keep hourly backups from the past day, daily
     # backups for the past month, weekly backups for the last 3 months, monthly
@@ -53,16 +64,11 @@
       --keep-weekly 12 \
       --keep-monthly 12 \
       --keep-yearly 10
-
-    # Print some details about the repository.
-    ${resticCmd} check
-
-    # Ping healthcheck.io
-    ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/a42858af-a9d7-4385-b02d-2679f92873ed
   '';
 
   resticAutoRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
     #!${pkgs.stdenv.shell}
+    set -xe
 
     # If the backup has already been restored, exit.
     [[ -f ${path}/.restic-backup-restored ]] && exit 0
@@ -87,6 +93,26 @@
       startAt = frequency;
       serviceConfig = {
         ExecStart = "${script}/bin/restic-backup";
+        EnvironmentFile = resticEnvironmentFile;
+        PrivateTmp = true;
+        ProtectSystem = true;
+        ProtectHome = "read-only";
+      };
+      # Initialize the repository if it doesn't exist already.
+      preStart = ''
+        ${resticCmd} snapshots || ${resticCmd} init
+      '';
+    };
+  };
+
+  resticPruneService = {
+    name = "restic-prune";
+    value = {
+      description = "Prune ${resticRepository}";
+      environment = resticEnvironment;
+      startAt = pruneFrequency;
+      serviceConfig = {
+        ExecStart = "${resticPruneScript}/bin/restic-prune";
         EnvironmentFile = resticEnvironmentFile;
         PrivateTmp = true;
         ProtectSystem = true;
@@ -166,6 +192,9 @@ in {
       resticServices = [
         # The main backup service.
         (resticBackupService cfg.backups cfg.exclude)
+
+        # The main prune service.
+        resticPruneService
       ] ++
       # The auto-restore services.
       (mapAttrsToList resticAutoRestoreService
