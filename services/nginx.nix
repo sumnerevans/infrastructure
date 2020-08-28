@@ -23,6 +23,14 @@
           root = "/var/www/the-evans.family";
         };
       };
+
+      "sumnerevans.com" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          root = "/var/www/sumnerevans.com";
+        };
+      };
     };
   };
 
