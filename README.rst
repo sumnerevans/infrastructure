@@ -11,10 +11,10 @@ Things I Run
 * `Synapse <https://github.com/matrix-org/synapse>`_ for `Matrix
   <https://matrix.org>`_
 * `Murmur for Mumble <https://www.mumble.info/>`_
-* `Nextcloud <https://nextcloud.com>`_
 * `Quassel <https://quassel-irc.org/>`_
 * `The Lounge <https://thelounge.chat/>`_
 * `Wireguard <https://www.wireguard.com/>`_
+* `Xandikos <https://www.xandikos.org/>`_
 
 Goals
 =====
@@ -34,10 +34,15 @@ Uptime
   * From local backup: 1 day
   * From B2: 2 days
 
-Things that Need Stored Somewhere
----------------------------------
+Backup Strategy
+===============
 
-* Nextcloud docs and such (low latency, need these in object storage)
+I am using `Restic <https://github.com/restic/restic>`_ to backup everything.
+
+Things that Need Stored Somewhere
+=================================
+
+* Docs and such (low latency, need these in block storage)
 * Photos (not as low latency, can have these in S3/Spaces/B2 storage if
   necessary)
 * Music
@@ -56,6 +61,3 @@ Things that need to be setup by scripts
 * Synapse user
 * Mumble SuperUser
 * Mumble channels
-* Nextcloud user
-* Nextcloud apps
-* Nextcloud data
