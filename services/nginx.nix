@@ -11,9 +11,17 @@
     virtualHosts = {
       # Enable a status page and expose it.
       "status.sumnerevans.com" = {
-        forceSSL= true;
+        forceSSL = true;
         enableACME = true;
         locations."/".extraConfig = "stub_status on;access_log off;";
+      };
+
+      "the-evans.family" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          root = "/var/www/the-evans.family";
+        };
       };
     };
   };
