@@ -1,11 +1,13 @@
-#! /bin/sh
+#! /bin/bash
 
-secrets_file=.secrets_password_file
+set -xe
 
-[[ -f $secrets_file ]] || pass SysAdmin/Infrastructure-Secrets-Key | tee $secrets_file
+SECRETS_FILE_PATH=${SECRETS_FILE_PATH:-.secrets_password_file}
+
+[[ -f $SECRETS_FILE_PATH ]] || pass SysAdmin/Infrastructure-Secrets-Key | tee $SECRETS_FILE_PATH
 
 function enc_dec() {
-    openssl aes-256-cbc -iter 100000 -pbkdf2 -pass file:$secrets_file $@
+    openssl aes-256-cbc -iter 100000 -pbkdf2 -pass file:$SECRETS_FILE_PATH $@
 }
 
 if [[ "$1" == "update" ]]; then

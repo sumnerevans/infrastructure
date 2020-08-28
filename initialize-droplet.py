@@ -167,7 +167,7 @@ user_data = f'''#cloud-config
 
 runcmd:
   - apt install -y git
-  - git clone https://gitlab.com/sumner/infrastructure.git /etc/nixos
+  - git clone https://git.sr.ht/~sumner/infrastructure /etc/nixos
   - mkdir -p /etc/nixos/secrets
 {secrets_runcmds}
   - curl https://raw.githubusercontent.com/elitak/nixos-infect/master/nixos-infect | PROVIDER=digitalocean NIXOS_IMPORT=./host.nix NIX_CHANNEL=nixos-unstable bash 2>&1 | tee /tmp/infect.log
