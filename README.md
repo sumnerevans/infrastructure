@@ -35,7 +35,7 @@
 
 ## Backup Strategy
 
-I am using `Restic <https://github.com/restic/restic>`_ to backup everything.
+I am using [Restic](https://github.com/restic/restic) to backup everything.
 
 ## Things that Need Stored Somewhere
 
