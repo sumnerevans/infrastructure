@@ -23,18 +23,15 @@ tasks:
       rsync -vr --delete-after secrets/ root@deploy.sumnerevans.com:/etc/nixos/secrets
       rm -rf $SECRETS_FILE_PATH secrets
 
+  # SSH into the server and switch to this commit
   - switch-commit: |
       cd infrastructure
-      echo "SSH into the server and switch to this commit"
-      echo "============================================="
       ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)"
 
+  # Running nixos-rebuild build
   - nix-build: |
-      echo "Running nixos-rebuild build..."
-      echo "=============================="
       ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace"
 
+  # Switch to the new generation
   - switch-generation: |
-      echo "Switch to the new generation..."
-      echo "==============================="
       ssh root@deploy.sumnerevans.com "nixos-rebuild switch"
