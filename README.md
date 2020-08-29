@@ -17,6 +17,12 @@
 * [Wireguard](https://www.wireguard.com/)
 * [Xandikos](https://www.xandikos.org/)
 
+## Things I Want to Run
+
+* Navidrome
+* Syncthing
+* A photo gallery
+
 ## Goals
 
 * Infrastructure as code
