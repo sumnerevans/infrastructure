@@ -1,9 +1,0 @@
-deploy:
-  image: alpine
-  stage: deploy
-  only:
-    - master
-  before_script:
-    - ./cicd/deploy/before_script.sh
-  script:
-    - ./cicd/deploy/script.sh
