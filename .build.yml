@@ -1,10 +1,11 @@
-image: archlinux
+image: nixos/unstable
 packages:
-  - git
-  - openssh
-  - openssl
-  - python-poetry
-  - rsync
+  - nixos.bash
+  - nixos.git
+  - nixos.openssh
+  - nixos.openssl
+  - nixos.rst2html5
+  - nixos.rsync
 sources:
   - https://git.sr.ht/~sumner/infrastructure
 secrets:
@@ -25,8 +26,6 @@ triggers:
     to: ~sumner/public-inbox@lists.sr.ht
 tasks:
   - setup: |
-      cd ${REPO_NAME}
-      poetry install --no-dev
       echo "cd $REPO_NAME" >> ~/.buildenv
 
   # If we are on the master branch, compile the README.rst to HTML and set it
@@ -34,13 +33,13 @@ tasks:
   - readme: |
       set +x
       git branch --contains | grep master &&
-        poetry run rst2html5 README.rst |                           \
+        rst2html5 README.rst |                                      \
           curl -H "Content-Type: text/html"                         \
             -H "Authorization: Bearer $(cat ~/.readme-token)"       \
             -XPUT                                                   \
             --data-binary @-                                        \
             "https://git.sr.ht/api/repos/${REPO_NAME}/readme" &&
-        echo "README set"
+        echo "README set" || echo "Skipping README set because not on master"
 
   # Send all of the secrets to the server.
   - send-secrets: |
@@ -58,4 +57,4 @@ tasks:
 
   # Switch to the new generation
   - switch-generation: |
-      ssh root@deploy.sumnerevans.com "nixos-rebuild switch"
+      ssh root@deploy.sumnerevans.com "nixos-rebuild switch --show-trace"
