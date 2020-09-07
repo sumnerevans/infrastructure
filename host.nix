@@ -12,6 +12,7 @@
     openssl
     restic
     ripgrep
+    rsync
     tmux
     tree
     unzip
