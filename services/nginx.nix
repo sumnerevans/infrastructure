@@ -24,6 +24,14 @@
         };
       };
 
+      "qs.sumnerevans.com" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          root = "/var/www/qs.sumnerevans.com";
+        };
+      };
+
       "sumnerevans.com" = {
         forceSSL = true;
         enableACME = true;
