@@ -19,7 +19,7 @@
         # jedha
         allowedIPs = [ "192.168.69.2/32" ];
         presharedKeyFile = "/etc/nixos/secrets/wireguard-jedha-presharedkey";
-        publicKey = "x1BDx/V7ylfF8lKr5ZbYH+XR3UjJG4M0VZTBJTz1Jmo=";
+        publicKey = "kcHAXPtOWQsX8sc9gGXI5q9uxSBdOA1ryk9yNLJIFk8=";
       }
       {
         # coruscant
