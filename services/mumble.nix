@@ -14,6 +14,14 @@ in {
     sslCa = "${certs.${serverName}.directory}/full.pem";
   };
 
+  # Always make sure that the certificate is accessible to the murmur service.
+  systemd.services.murmur.serviceConfig = {
+    PermissionsStartOnly = true;
+    ExecStartPre = ''
+      ${pkgs.coreutils}/bin/chown -R murmur ${certs.${serverName}.directory}
+    '';
+  };
+
   # Open up the ports for TCP and UDP
   networking.firewall = {
     allowedTCPPorts = [ 64738 ];
@@ -25,12 +33,5 @@ in {
     forceSSL= true;
     enableACME = true;
     locations."/".extraConfig = "return 301 https://mumble.info;";
-  };
-
-  security.acme.certs."${serverName}" = {
-    postRun = ''
-      chown -R murmur ${certs.${serverName}.directory}
-      systemctl restart murmur
-    '';
   };
 }
