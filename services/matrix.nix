@@ -9,6 +9,7 @@ in {
     enable_metrics = true;
     enable_registration = false;
     server_name = config.networking.domain;
+    max_upload_size = "250M";
     listeners = [
       {
         port = 8008;
