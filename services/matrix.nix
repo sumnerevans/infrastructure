@@ -27,6 +27,13 @@ in {
     ];
   };
 
+  # Run go-neb for the echo bot.
+  services.go-neb = {
+    baseUrl = "http://localhost";
+    enable = true;
+  };
+
+  # Make sure that Postgres is setup for Synapse.
   services.postgresql = {
     ensureDatabases = [ "matrix-synapse" ];
     ensureUsers = [
