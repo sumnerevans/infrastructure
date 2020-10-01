@@ -8,6 +8,7 @@ in {
     enable = true;
     enable_metrics = true;
     enable_registration = false;
+    registration_shared_secret = "${builtins.readFile "/etc/nixos/secrets/matrix-registration-shared-secret"}";
     server_name = config.networking.domain;
     max_upload_size = "250M";
     listeners = [
@@ -25,12 +26,6 @@ in {
         ];
       }
     ];
-  };
-
-  # Run go-neb for the echo bot.
-  services.go-neb = {
-    baseUrl = "http://localhost";
-    enable = true;
   };
 
   # Make sure that Postgres is setup for Synapse.
