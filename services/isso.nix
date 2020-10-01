@@ -16,7 +16,7 @@
 
     [smtp]
     username = comments@sumnerevans.com
-    password = ${builtins.readFile "/etc/nixos/secrets/isso-comments-smtp-password"}
+    password = ${builtins.readFile ../secrets/isso-comments-smtp-password}
     host = smtp.migadu.com
     port = 587
     security = starttls
@@ -36,7 +36,7 @@
 
     [admin]
     enabled = true
-    password = ${builtins.readFile "/etc/nixos/secrets/isso-admin-password"}
+    password = ${builtins.readFile ../secrets/isso-admin-password}
   '';
   issoConfigFile = pkgs.writeTextFile {
     name = "isso.cfg";

@@ -1,5 +1,5 @@
 # See: https://nixos.org/nixos/manual/index.html#module-services-matrix-synapse
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   matrixDomain = "matrix.${config.networking.domain}";
 in {
@@ -8,7 +8,8 @@ in {
     enable = true;
     enable_metrics = true;
     enable_registration = false;
-    registration_shared_secret = "${builtins.readFile "/etc/nixos/secrets/matrix-registration-shared-secret"}";
+    registration_shared_secret = lib.removeSuffix "\n"
+      (builtins.readFile ../secrets/matrix-registration-shared-secret);
     server_name = config.networking.domain;
     max_upload_size = "250M";
     listeners = [

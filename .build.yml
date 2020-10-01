@@ -23,7 +23,7 @@ environment:
 triggers:
   - action: email
     condition: failure
-    to: ~sumner/public-inbox@lists.sr.ht
+    to: alerts@sumnerevans.com
 tasks:
   - setup: |
       echo "cd $REPO_NAME" >> ~/.buildenv

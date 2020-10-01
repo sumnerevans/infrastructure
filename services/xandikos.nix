@@ -19,7 +19,7 @@ in {
       enableACME = true;
       forceSSL = true;
       basicAuth = {
-        sumner = "${builtins.readFile "/etc/nixos/secrets/xandikos"}";
+        sumner = "${builtins.readFile ../secrets/xandikos}";
       };
     };
   };
