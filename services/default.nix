@@ -2,7 +2,8 @@
   ./acme.nix
   ./airsonic.nix
   ./bitwarden.nix
-  # ./isso.nix
+  ./goaccess.nix
+  ./isso.nix
   ./logrotate.nix
   ./matrix.nix
   ./mumble.nix

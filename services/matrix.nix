@@ -49,9 +49,14 @@ in {
 
       # If they access root, redirect to Element. If they access the API, then
       # forward on to Synapse.
-      locations."/".extraConfig = "return 301 https://app.element.io;";
+      locations."/".extraConfig = ''
+        return 301 https://app.element.io;
+      '';
       locations."/_matrix" = {
         proxyPass = "http://[::1]:8008"; # without a trailing /
+        extraConfig = ''
+          access_log /var/log/nginx/matrix.access.log;
+        '';
       };
     };
   };
