@@ -5,10 +5,10 @@ pkgs.mkShell {
       digital-ocean
       flake8
       pynvim
+      python-language-server
       yapf
     ]))
     nodePackages.bash-language-server
-    # python-language-server
     rst2html5
   ];
 }
