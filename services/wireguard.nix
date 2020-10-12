@@ -71,11 +71,12 @@
       # Have the validator print validation failures to the log.
       "val-log-level: 1"
     ];
-  in {
-    enable = true;
-    allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
-    enableRootTrustAnchor = true;
-    interfaces = [ "0.0.0.0" ];
-    extraConfig = "${extraConfig}";
-  };
+  in
+    {
+      enable = true;
+      allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
+      enableRootTrustAnchor = true;
+      interfaces = [ "0.0.0.0" ];
+      extraConfig = "${extraConfig}";
+    };
 }

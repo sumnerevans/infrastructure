@@ -11,11 +11,12 @@
         --ignore-crawlers \
         --log-format=COMBINED
   '';
-in {
+in
+{
   systemd.services.goaccess = {
     description = "Goaccess Web log report.";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target "];
+    after = [ "network-online.target" ];
     serviceConfig = {
       User = "root";
       ExecStart = "${goaccessScript}";

@@ -1,6 +1,7 @@
 { config, pkgs, ... }: let
   serverName = "irc.sumnerevans.com";
-in {
+in
+{
   services.thelounge = {
     enable = true;
     private = true;

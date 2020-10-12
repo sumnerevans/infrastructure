@@ -42,11 +42,12 @@
     name = "isso.cfg";
     text = issoConfig;
   };
-in {
+in
+{
   systemd.services.isso = {
     description = "Run an Isso server.";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target "];
+    after = [ "network-online.target" ];
     serviceConfig = {
       User = "isso";
       ExecStart = "${pkgs.isso}/bin/isso -c ${issoConfigFile} run";
