@@ -53,7 +53,7 @@ tasks:
   - switch-commit: |
       git branch --contains | grep master &&
         ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)" &&
-        echo "Switched to $(git rev-parse HEAd)" || echo "Skipping switch-commit since not on master"
+        echo "Switched to $(git rev-parse HEAD)" || echo "Skipping switch-commit since not on master"
 
   # Running nixos-rebuild build
   - nix-build: |
