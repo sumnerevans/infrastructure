@@ -1,7 +1,8 @@
 { config, pkgs, ... }: let
   certs = config.security.acme.certs;
   serverName = "irc.sumnerevans.com";
-in {
+in
+{
   services.quassel = {
     enable = true;
     interfaces = [ "0.0.0.0" ];

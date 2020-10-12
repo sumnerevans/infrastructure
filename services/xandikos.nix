@@ -1,6 +1,7 @@
 { config, pkgs, ... }: let
   serverName = "dav.sumnerevans.com";
-in {
+in
+{
   services.xandikos = {
     enable = true;
     extraOptions = [

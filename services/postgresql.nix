@@ -5,7 +5,7 @@
   services.postgresqlBackup = {
     enable = true;
     backupAll = true;
-    startAt = "0/3:0";  # systemd-analyze calendar "0/3:0"
+    startAt = "0/3:0"; # systemd-analyze calendar "0/3:0"
   };
 
   # Add a backup service.

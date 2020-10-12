@@ -1,6 +1,7 @@
 { config, pkgs, ... }: let
   serverName = "bitwarden.sumnerevans.com";
-in {
+in
+{
   services.bitwarden_rs = {
     enable = true;
     config = {
@@ -17,7 +18,7 @@ in {
 
   # Reverse proxy Bitwarden.
   services.nginx.virtualHosts."${serverName}" = {
-    forceSSL= true;
+    forceSSL = true;
     enableACME = true;
     locations = {
       "/" = {

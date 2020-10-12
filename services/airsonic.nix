@@ -1,6 +1,7 @@
 { pkgs, ... }: let
   serverName = "airsonic.sumnerevans.com";
-in {
+in
+{
   # Create the airsonic service.
   services.airsonic = {
     enable = true;
@@ -11,7 +12,7 @@ in {
   # Get a cert for it and make it only available over HTTPS.
   services.nginx.virtualHosts = {
     "${serverName}" = {
-      forceSSL= true;
+      forceSSL = true;
       enableACME = true;
     };
   };

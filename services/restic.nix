@@ -90,26 +90,27 @@
   # ===========================================================================
   resticBackupService = backups: exclude: let
     paths = mapAttrsToList (n: { path, ... }: path) backups;
-    script = resticBackupScript paths (exclude ++ [".restic-backup-restored"]);
-  in {
-    name = "restic-backup";
-    value = {
-      description = "Backup ${concatStringsSep ", " paths} to ${resticRepository}";
-      environment = resticEnvironment;
-      startAt = frequency;
-      serviceConfig = {
-        ExecStart = "${script}/bin/restic-backup";
-        EnvironmentFile = resticEnvironmentFile;
-        PrivateTmp = true;
-        ProtectSystem = true;
-        ProtectHome = "read-only";
+    script = resticBackupScript paths (exclude ++ [ ".restic-backup-restored" ]);
+  in
+    {
+      name = "restic-backup";
+      value = {
+        description = "Backup ${concatStringsSep ", " paths} to ${resticRepository}";
+        environment = resticEnvironment;
+        startAt = frequency;
+        serviceConfig = {
+          ExecStart = "${script}/bin/restic-backup";
+          EnvironmentFile = resticEnvironmentFile;
+          PrivateTmp = true;
+          ProtectSystem = true;
+          ProtectHome = "read-only";
+        };
+        # Initialize the repository if it doesn't exist already.
+        preStart = ''
+          ${resticCmd} snapshots || ${resticCmd} init
+        '';
       };
-      # Initialize the repository if it doesn't exist already.
-      preStart = ''
-        ${resticCmd} snapshots || ${resticCmd} init
-      '';
     };
-  };
 
   resticPruneService = {
     name = "restic-prune";
@@ -133,23 +134,25 @@
 
   resticAutoRestoreService = name: { path, serviceName, ... }: let
     script = resticAutoRestoreScript path;
-  in {
-    name = serviceName;
-    value = {
-      description = "Auto-restore ${path} on system startup.";
-      environment = resticEnvironment;
-      serviceConfig = {
-        ExecStart = "${script}/bin/restic-restore";
-        EnvironmentFile = resticEnvironmentFile;
-      };
+  in
+    {
+      name = serviceName;
+      value = {
+        description = "Auto-restore ${path} on system startup.";
+        environment = resticEnvironment;
+        serviceConfig = {
+          ExecStart = "${script}/bin/restic-restore";
+          EnvironmentFile = resticEnvironmentFile;
+        };
 
-      # Run after the network comes up.
-      # wantedBy = [ "multi-user.target" ];
-      # after = [ "network-online.target" ];
-      # wants = [ "network-online.target" ];
+        # Run after the network comes up.
+        # wantedBy = [ "multi-user.target" ];
+        # after = [ "network-online.target" ];
+        # wants = [ "network-online.target" ];
+      };
     };
-  };
-in {
+in
+{
   options = let
     backupDirOpts = { name, ... }: {
       options = {
@@ -173,27 +176,28 @@ in {
         };
       };
     };
-  in {
-    services.backup = {
-      backups = mkOption {
-        default = {};
-        type = with types; attrsOf (submodule backupDirOpts);
-        description = "List of backup configurations.";
-      };
+  in
+    {
+      services.backup = {
+        backups = mkOption {
+          default = {};
+          type = with types; attrsOf (submodule backupDirOpts);
+          description = "List of backup configurations.";
+        };
 
-      exclude = mkOption {
-        type = types.listOf types.str;
-        default = [];
-        description = ''
-          List of patterns to exclude. `.restic-backup-restored` files are
-          already ignored.
-        '';
-        example = [ ".git/*" ];
+        exclude = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          description = ''
+            List of patterns to exclude. `.restic-backup-restored` files are
+            already ignored.
+          '';
+          example = [ ".git/*" ];
+        };
       };
     };
-  };
 
-  config = mkIf (cfg != { }) {
+  config = mkIf (cfg != {}) {
     systemd.services = let
       resticServices = [
         # The main backup service.
@@ -201,12 +205,15 @@ in {
 
         # The main prune service.
         resticPruneService
-      ] ++
-      # The auto-restore services.
-      (mapAttrsToList resticAutoRestoreService
-        (filterAttrs
-          (n: { autoRestore, ... }: autoRestore)
-          cfg.backups));
+      ] ++ # The auto-restore services.
+      (
+        mapAttrsToList resticAutoRestoreService
+          (
+            filterAttrs
+              (n: { autoRestore, ... }: autoRestore)
+              cfg.backups
+          )
+      );
     in
       listToAttrs resticServices;
   };

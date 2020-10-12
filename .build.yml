@@ -43,18 +43,26 @@ tasks:
 
   # Send all of the secrets to the server.
   - send-secrets: |
-      ./secrets_file_manager.sh extract
-      rsync -vr --delete-after secrets/ root@deploy.sumnerevans.com:/etc/nixos/secrets
-      rm -rf $SECRETS_FILE_PATH secrets
+      git branch --contains | grep master &&
+        ./secrets_file_manager.sh extract &&
+        rsync -vr --delete-after secrets/ root@deploy.sumnerevans.com:/etc/nixos/secrets &&
+        rm -rf $SECRETS_FILE_PATH secrets &&
+        echo "Secrets sent" || echo "Skipping send-secrets since not on master"
 
   # SSH into the server and switch to this commit
   - switch-commit: |
-      ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)"
+      git branch --contains | grep master &&
+        ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)" &&
+        echo "Switched to $(git rev-parse HEAd)" || echo "Skipping switch-commit since not on master"
 
   # Running nixos-rebuild build
   - nix-build: |
-      ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace"
+      git branch --contains | grep master &&
+        ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace" &&
+        echo "Build complete" || echo "Skipping nix-build since not on master"
 
   # Switch to the new generation
   - switch-generation: |
-      ssh root@deploy.sumnerevans.com "nixos-rebuild switch --show-trace"
+      git branch --contains | grep master &&
+        ssh root@deploy.sumnerevans.com "nixos-rebuild switch --show-trace" &&
+        echo "Generation switched" || echo "Skipping switch-generation since not on master"

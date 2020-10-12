@@ -2,7 +2,8 @@
 { config, lib, pkgs, ... }:
 let
   matrixDomain = "matrix.${config.networking.domain}";
-in {
+in
+{
   # Run Synapse
   services.matrix-synapse = {
     enable = true;
