@@ -11,6 +11,7 @@
   ./postgresql.nix
   ./quassel.nix
   ./restic.nix
+  ./syncthing.nix
   ./thelounge.nix
   ./wireguard.nix
   ./xandikos.nix

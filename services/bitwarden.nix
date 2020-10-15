@@ -21,17 +21,9 @@ in
     forceSSL = true;
     enableACME = true;
     locations = {
-      "/" = {
-        proxyPass = "http://127.0.0.1:8222";
-      };
-
-      "/notifications/hub" = {
-        proxyPass = "http://127.0.0.1:3012";
-      };
-
-      "/notifications/hub/negotiate" = {
-        proxyPass = "http://127.0.0.1:8222";
-      };
+      "/".proxyPass = "http://127.0.0.1:8222";
+      "/notifications/hub".proxyPass = "http://127.0.0.1:3012";
+      "/notifications/hub/negotiate".proxyPass = "http://127.0.0.1:8222";
     };
   };
 

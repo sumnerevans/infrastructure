@@ -2,6 +2,7 @@
   certs = config.security.acme.certs;
   serverName = "mumble.${config.networking.domain}";
   certDirectory = "${certs.${serverName}.directory}";
+  port = config.services.murmur.port;
 in
 {
   services.murmur = {

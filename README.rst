@@ -13,8 +13,8 @@ Things I Run
 
 * `Airsonic <https://airsonic.github.io/>`_
 * `Bitwarden RS <https://github.com/dani-garcia/bitwarden_rs>`_
+* `GoAccess <https://goaccess.io/>`_
 * `Isso <https://posativ.org/isso/>`_
-* `Matomo <https://matomo.org/>`_
 * `Synapse <https://github.com/matrix-org/synapse>`_ for `Matrix
   <https://matrix.org>`_
 * `Murmur for Mumble <https://www.mumble.info/>`_
