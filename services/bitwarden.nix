@@ -1,5 +1,5 @@
 { config, pkgs, ... }: let
-  serverName = "bitwarden.sumnerevans.com";
+  serverName = "bitwarden.${config.networking.domain}";
 in
 {
   services.bitwarden_rs = {

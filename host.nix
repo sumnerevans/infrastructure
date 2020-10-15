@@ -6,6 +6,7 @@
   # General packages for system maintenance.
   environment.systemPackages = with pkgs; [
     bind
+    direnv
     fd
     git
     gnupg
@@ -36,9 +37,6 @@
     options = "--delete-older-than 30d";
   };
 
-  # All users must be added declaratively.
-  users.mutableUsers = false;
-
   # Domain name.
   networking.domain = "sumnerevans.com";
 
@@ -50,6 +48,9 @@
       size = 4096;
     }
   ];
+
+  # All users must be added declaratively.
+  users.mutableUsers = false;
 
   # Allow GitLab CI/CD to SSH in and upgrade the server.
   users.users.root = {

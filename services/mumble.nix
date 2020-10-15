@@ -1,25 +1,26 @@
 { config, pkgs, ... }: let
   certs = config.security.acme.certs;
-  serverName = "mumble.sumnerevans.com";
+  serverName = "mumble.${config.networking.domain}";
+  certDirectory = "${certs.${serverName}.directory}";
 in
 {
   services.murmur = {
     enable = true;
-    registerHostname = "${serverName}";
+    registerHostname = serverName;
     registerName = "Sumner's Mumble Server";
     welcometext = "Welcome to Sumner's Mumble Server. Enjoy your stay!";
 
     # Keys
-    sslCert = "${certs.${serverName}.directory}/fullchain.pem";
-    sslKey = "${certs.${serverName}.directory}/key.pem";
-    sslCa = "${certs.${serverName}.directory}/full.pem";
+    sslCert = "${certDirectory}/fullchain.pem";
+    sslKey = "${certDirectory}/key.pem";
+    sslCa = "${certDirectory}/full.pem";
   };
 
   # Always make sure that the certificate is accessible to the murmur service.
   systemd.services.murmur.serviceConfig = {
     PermissionsStartOnly = true;
     ExecStartPre = ''
-      ${pkgs.coreutils}/bin/chown -R murmur ${certs.${serverName}.directory}
+      ${pkgs.coreutils}/bin/chown -R murmur ${certDirectory}
     '';
   };
 

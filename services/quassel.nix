@@ -1,12 +1,13 @@
 { config, pkgs, ... }: let
   certs = config.security.acme.certs;
-  serverName = "irc.sumnerevans.com";
+  serverName = "irc.${config.networking.domain}";
+  certDirectory = "${certs.${serverName}.directory}";
 in
 {
   services.quassel = {
     enable = true;
     interfaces = [ "0.0.0.0" ];
-    certificateFile = "${certs.${serverName}.directory}/fullchain.pem";
+    certificateFile = "${certDirectory}/fullchain.pem";
   };
 
   networking.firewall.allowedTCPPorts = [ 4242 ];

@@ -1,5 +1,5 @@
 { config, pkgs, ... }: let
-  serverName = "dav.sumnerevans.com";
+  serverName = "dav.${config.networking.domain}";
 in
 {
   services.xandikos = {
@@ -10,7 +10,7 @@ in
 
     nginx = {
       enable = true;
-      hostName = "${serverName}";
+      hostName = serverName;
     };
   };
 
@@ -20,7 +20,7 @@ in
       enableACME = true;
       forceSSL = true;
       basicAuth = {
-        sumner = "${builtins.readFile ../secrets/xandikos}";
+        sumner = lib.removeSuffix "\n" (builtins.readFile ../secrets/xandikos);
       };
     };
   };

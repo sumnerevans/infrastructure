@@ -19,7 +19,7 @@ in
     after = [ "network-online.target" ];
     serviceConfig = {
       User = "root";
-      ExecStart = "${goaccessScript}";
+      ExecStart = goaccessScript;
       Restart = "always";
       RestartSec = 600;
     };

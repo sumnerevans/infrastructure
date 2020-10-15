@@ -77,6 +77,6 @@
       allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
       enableRootTrustAnchor = true;
       interfaces = [ "0.0.0.0" ];
-      extraConfig = "${extraConfig}";
+      extraConfig = extraConfig;
     };
 }

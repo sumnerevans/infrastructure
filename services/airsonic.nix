@@ -1,12 +1,12 @@
 { pkgs, ... }: let
-  serverName = "airsonic.sumnerevans.com";
+  serverName = "airsonic.${config.networking.domain}";
 in
 {
   # Create the airsonic service.
   services.airsonic = {
     enable = true;
     maxMemory = 1024;
-    virtualHost = "${serverName}";
+    virtualHost = serverName;
   };
 
   # Get a cert for it and make it only available over HTTPS.

@@ -1,5 +1,5 @@
 { config, pkgs, ... }: let
-  serverName = "irc.sumnerevans.com";
+  serverName = "irc.${config.networking.domain}";
 in
 {
   services.thelounge = {
