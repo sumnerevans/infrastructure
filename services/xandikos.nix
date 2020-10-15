@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: let
+{ config, lib, pkgs, ... }: let
   serverName = "dav.${config.networking.domain}";
 in
 {

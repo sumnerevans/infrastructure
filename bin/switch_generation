@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+set -x
+git branch --contains | grep master
+if [[ $? == 0 ]]; then
+    set -e
+
+    # Switch commit
+    ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)"
+
+    # Build
+    ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace"
+
+    # Switch to the new generation
+    ssh root@deploy.sumnerevans.com "nixos-rebuild switch --show-trace"
+
+    echo "deployment done"
+else
+    echo "Not deploying since not on master"
+fi

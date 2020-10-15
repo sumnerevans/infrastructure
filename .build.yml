@@ -32,37 +32,12 @@ tasks:
   # as the README for the repo.
   - readme: |
       set +x
-      git branch --contains | grep master &&
-        rst2html5 README.rst |                                      \
-          curl -H "Content-Type: text/html"                         \
-            -H "Authorization: Bearer $(cat ~/.readme-token)"       \
-            -XPUT                                                   \
-            --data-binary @-                                        \
-            "https://git.sr.ht/api/repos/${REPO_NAME}/readme" &&
-        echo "README set" || echo "Skipping README set because not on master"
+      ./bin/deploy_readme
 
   # Send all of the secrets to the server.
   - send-secrets: |
-      git branch --contains | grep master &&
-        ./secrets_file_manager.sh extract &&
-        rsync -vr --delete-after secrets/ root@deploy.sumnerevans.com:/etc/nixos/secrets &&
-        rm -rf $SECRETS_FILE_PATH secrets &&
-        echo "Secrets sent" || echo "Skipping send-secrets since not on master"
+      ./bin/send_secrets
 
-  # SSH into the server and switch to this commit
-  - switch-commit: |
-      git branch --contains | grep master &&
-        ssh root@deploy.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)" &&
-        echo "Switched to $(git rev-parse HEAD)" || echo "Skipping switch-commit since not on master"
-
-  # Running nixos-rebuild build
-  - nix-build: |
-      git branch --contains | grep master &&
-        ssh root@deploy.sumnerevans.com "nixos-rebuild build --show-trace" &&
-        echo "Build complete" || echo "Skipping nix-build since not on master"
-
-  # Switch to the new generation
+  # Switch commits, build, and switch to the new generation
   - switch-generation: |
-      git branch --contains | grep master &&
-        ssh root@deploy.sumnerevans.com "nixos-rebuild switch --show-trace" &&
-        echo "Generation switched" || echo "Skipping switch-generation since not on master"
+      ./bin/switch_generation

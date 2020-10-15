@@ -1,4 +1,4 @@
-{ pkgs, ... }: let
+{ pkgs, config, ... }: let
   serverName = "airsonic.${config.networking.domain}";
 in
 {
