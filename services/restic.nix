@@ -41,6 +41,7 @@
 
     # Perfrom the backup
     ${resticCmd} backup \
+      --verbose \
       ${concatStringsSep " " paths} \
       ${concatMapStringsSep " " (e: "-e \"${e}\"") exclude}
 

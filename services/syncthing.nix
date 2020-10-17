@@ -16,8 +16,13 @@ in
     locations."/".proxyPass = "http://localhost:8384";
   };
 
-  # Add a backup service.
-  services.backup.backups.syncthing = {
+  # Add a backup service for the config.
+  services.backup.backups.syncthing-config = {
     path = "/var/lib/syncthing";
+  };
+
+  # Add a backup service for the actual config.
+  services.backup.backups.syncthing-data = {
+    path = "/mnt/syncthing_data";
   };
 }

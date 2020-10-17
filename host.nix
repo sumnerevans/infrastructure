@@ -12,6 +12,7 @@
     gnupg
     htop
     neovim
+    nix-direnv
     openssl
     restic
     ripgrep
@@ -21,6 +22,17 @@
     unzip
     vim
     zsh
+  ];
+
+  # nix-direnv
+  # nix options for derivations to persist garbage collection
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+  '';
+
+  environment.pathsToLink = [
+    "/share/nix-direnv"
   ];
 
   # Keep the system up-to-date automatically.
