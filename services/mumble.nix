@@ -20,9 +20,9 @@ in
   # Always make sure that the certificate is accessible to the murmur service.
   systemd.services.murmur.serviceConfig = {
     PermissionsStartOnly = true;
-    ExecStartPre = ''
-      ${pkgs.coreutils}/bin/chown -R murmur ${certDirectory}
-    '';
+    # ExecStartPre = ''
+    #   ${pkgs.coreutils}/bin/chown -R murmur ${certDirectory}
+    # '';
   };
 
   # Open up the ports for TCP and UDP
