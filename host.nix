@@ -11,6 +11,7 @@
     git
     gnupg
     htop
+    iftop
     neovim
     nix-direnv
     openssl
