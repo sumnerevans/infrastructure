@@ -75,17 +75,21 @@
     ${pkgs.curl}/bin/curl -fsS --retry 10 https://hc-ping.com/14ed7839-784f-4dee-adf2-f9e03c2b611e
   '';
 
-  resticAutoRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
+  resticRestoreScript = path: pkgs.writeScriptBin "restic-restore" ''
     #!${pkgs.stdenv.shell}
     set -xe
 
-    # If the backup has already been restored, exit.
-    [[ -f ${path}/.restic-backup-restored ]] && exit 0
+    # If the backup has already been restored, print an error and exit.
+    [[ -f ${path}/.restic-backup-restored ]] &&
+      echo "A backup has already been restored for ${path}." &&
+      echo "Remove ${path}/.restic-backup-restored if you want to force a restore." &&
+      exit 1
 
     # Perfrom the restoration.
     ${resticCmd} restore latest --verify --target / -i ${path}
 
-    # Create the .restic-backup-restored file.
+    # Create the .restic-backup-restored file to indicate that this backup has
+    # been restored.
     touch ${path}/.restic-backup-restored
   '';
 
@@ -135,23 +139,18 @@
     };
   };
 
-  resticAutoRestoreService = name: { path, serviceName, ... }: let
-    script = resticAutoRestoreScript path;
+  resticRestoreService = name: { path, serviceName, ... }: let
+    script = resticRestoreScript path;
   in
     {
       name = serviceName;
       value = {
-        description = "Auto-restore ${path} on system startup.";
+        description = "Restore ${path} from the latest restic backup.";
         environment = resticEnvironment;
         serviceConfig = {
           ExecStart = "${script}/bin/restic-restore";
           EnvironmentFile = resticEnvironmentFile;
         };
-
-        # Run after the network comes up.
-        # wantedBy = [ "multi-user.target" ];
-        # after = [ "network-online.target" ];
-        # wants = [ "network-online.target" ];
       };
     };
 in
@@ -163,19 +162,10 @@ in
           type = types.str;
           description = "The path to backup using restic.";
         };
-        autoRestore = mkOption {
-          type = types.bool;
-          default = true;
-          description = ''
-            Whether an auto-restore service should be added for this path. If
-            <literal>true</literal>, a service with the name specified by the
-            <option>serviceName</option> will be created.
-          '';
-        };
         serviceName = mkOption {
           type = types.str;
-          default = "restic-auto-restore-${name}";
-          description = "The name of the auto-restore service to create.";
+          default = "restic-restore-${name}";
+          description = "The name of the restore service to create.";
         };
       };
     };
@@ -208,15 +198,10 @@ in
 
         # The main prune service.
         resticPruneService
-      ] ++ # The auto-restore services.
-      (
-        mapAttrsToList resticAutoRestoreService
-          (
-            filterAttrs
-              (n: { autoRestore, ... }: autoRestore)
-              cfg.backups
-          )
-      );
+      ]
+
+      # The restore services.
+      ++ mapAttrsToList resticRestoreService cfg.backups;
     in
       listToAttrs resticServices;
   };
