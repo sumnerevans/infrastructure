@@ -1,7 +1,10 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }: let
+  hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
+in
+{
   services.longview = {
     enable = true;
     apiKeyFile = ../secrets/longview-api-key;
-    nginxStatusUrl = "https://status.sumnerevans.com";
+    nginxStatusUrl = "https://${hostnameDomain}/status";
   };
 }

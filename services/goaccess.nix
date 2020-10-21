@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: with lib; let
   cfg = config.services.metrics;
-  metricsDomain = "metrics.${config.networking.domain}";
-  goaccessDir = "/var/www/${metricsDomain}";
+  hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
+  goaccessDir = "/var/goaccess/metrics";
   excludeIPs = [
     "184.96.89.215"
   ];
@@ -95,13 +95,8 @@ in
     };
 
     # Set up nginx to forward requests properly.
-    services.nginx.virtualHosts = {
-      "${metricsDomain}" = {
-        enableACME = true;
-        forceSSL = true;
-
-        locations."/".root = "${goaccessDir}";
-      };
+    services.nginx.virtualHosts."${hostnameDomain}" = {
+      locations."/metrics".root = "${goaccessDir}";
     };
   };
 }

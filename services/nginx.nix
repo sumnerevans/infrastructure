@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }: with lib; let
+{ config, lib, pkgs, ... }: with lib; let
+  hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
   websites = [
     { hostname = "the-evans.family"; }
     { hostname = "qs.sumnerevans.com"; }
@@ -44,11 +45,12 @@ in
       };
     in
       {
-        # Enable a status page and expose it.
-        "status.sumnerevans.com" = {
+        "${hostnameDomain}" = {
           forceSSL = true;
           enableACME = true;
-          locations."/".extraConfig = "stub_status on;access_log off;";
+
+          # Enable a status page and expose it.
+          locations."/status".extraConfig = "stub_status on;access_log off;";
         };
       } // listToAttrs (map websiteConfig websites);
   };
