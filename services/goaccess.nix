@@ -29,12 +29,28 @@
       --log-format=COMBINED
   '';
 
+  hostListItem = { hostname, ... }: ''echo "<li><a href=\"/${w.hostname}\">${w.hostname}</a></li>" >> ${goaccessDir}/index.html'';
+  makeIndexScriptPart = websites: ''
+    echo "<html>"                                > ${goaccessDir}/index.html
+    echo "<head><title>Metrics</title></head>"  >> ${goaccessDir}/index.html
+    echo "<body>"                               >> ${goaccessDir}/index.html
+    echo "<h1>Metrics</h1>"                     >> ${goaccessDir}/index.html
+    echo "<ul>"                                 >> ${goaccessDir}/index.html
+
+    ${concatMapStringsSep "\n" hostListItem websites}
+
+    echo "</ul>"                                >> ${goaccessDir}/index.html
+    echo "</body>"                              >> ${goaccessDir}/index.html
+  '';
+
   goaccessScript = websites: pkgs.writeShellScript "goaccess" ''
     set -xe
     ${pkgs.coreutils}/bin/mkdir -p ${goaccessDir}
     cd /var/log/nginx
 
-    ${(concatStringsSep "\n\n" (map goaccessWebsiteMetricsScriptPart websites))}
+    ${concatMapStringsSep "\n" goaccessWebsiteMetricsScriptPart websites}
+
+    ${makeIndexScriptPart websites}
   '';
 in
 {
