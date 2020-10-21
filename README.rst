@@ -77,3 +77,14 @@ Q: Can these be done from within the management of NixOS?
 * Synapse user
 * Mumble SuperUser
 * Mumble channels
+
+Deploy Instructions
+===================
+
+1. Get a working NixOS install.
+
+   * https://www.linode.com/docs/tools-reference/custom-kernels-distros/install-nixos-on-linode/
+
+2. Clone this repo to ``/etc/nixos``.
+3. Import ``host.nix`` from ``configuration.nix``.
+4. ``nixos-rebuild switch --upgrade``

@@ -5,6 +5,7 @@
   ./goaccess.nix
   ./isso.nix
   ./logrotate.nix
+  ./longview.nix
   ./matrix.nix
   ./mumble.nix
   ./nginx.nix
