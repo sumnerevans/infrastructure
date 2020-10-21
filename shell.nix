@@ -1,7 +1,10 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
   propagatedBuildInputs = with pkgs; [
+    gnutar
     nodePackages.bash-language-server
+    openssl
+    pass
     rnix-lsp
     rst2html5
 
