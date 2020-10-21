@@ -183,18 +183,18 @@ in
     {
       services.backup = {
         backups = mkOption {
-          default = {};
           type = with types; attrsOf (submodule backupDirOpts);
           description = "List of backup configurations.";
+          default = {};
         };
 
         exclude = mkOption {
-          type = types.listOf types.str;
-          default = [];
+          type = with types; listOf str;
           description = ''
             List of patterns to exclude. `.restic-backup-restored` files are
             already ignored.
           '';
+          default = [];
           example = [ ".git/*" ];
         };
       };

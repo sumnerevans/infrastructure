@@ -1,4 +1,24 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: with lib; let
+  websites = [
+    { hostname = "the-evans.family"; }
+    { hostname = "qs.sumnerevans.com"; }
+    {
+      hostname = "sumnerevans.com";
+      excludeTerms = [
+        "/.well-known/"
+        "/dark-theme.min.js"
+        "/favicon.ico"
+        "/js/isso.min.js"
+        "/profile.jpg"
+        "/robots.txt"
+        # "/socket.io/"
+        # "/sumner/blog/wp-content"
+      ];
+    }
+  ];
+in
+{
+  # Enable nginx and add the static websites.
   services.nginx = {
     enable = true;
     enableReload = true;
@@ -8,39 +28,34 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts = {
-      # Enable a status page and expose it.
-      "status.sumnerevans.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/".extraConfig = "stub_status on;access_log off;";
-      };
-
-      "the-evans.family" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www/the-evans.family";
+    virtualHosts = let
+      # Put logs for each website in a separate log file.
+      websiteConfig = { hostname, ... }: {
+        name = hostname;
+        value = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/" = {
+            root = "/var/www/${hostname}";
+            extraConfig = ''
+              access_log /var/log/nginx/${hostname}.access.log;
+            '';
+          };
         };
       };
-
-      "qs.sumnerevans.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www/qs.sumnerevans.com";
+    in
+      {
+        # Enable a status page and expose it.
+        "status.sumnerevans.com" = {
+          forceSSL = true;
+          enableACME = true;
+          locations."/".extraConfig = "stub_status on;access_log off;";
         };
-      };
-
-      "sumnerevans.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          root = "/var/www/sumnerevans.com";
-        };
-      };
-    };
+      } // listToAttrs (map websiteConfig websites);
   };
+
+  # Add metrics displays for each of the websites.
+  services.metrics.websites = websites;
 
   # Open up the ports
   networking.firewall.allowedTCPPorts = [ 80 443 ];
