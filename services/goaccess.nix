@@ -29,7 +29,9 @@
       --log-format=COMBINED
   '';
 
-  hostListItem = { hostname, ... }: ''echo "<li><a href=\"/${hostname}\">${hostname}</a></li>" >> ${goaccessDir}/index.html'';
+  hostListItem = { hostname, ... }: ''
+    echo "<li><a href=\"/metrics/${hostname}\">${hostname}</a></li>" >> ${goaccessDir}/index.html
+  '';
   makeIndexScriptPart = websites: ''
     echo "<html>"                                > ${goaccessDir}/index.html
     echo "<head><title>Metrics</title></head>"  >> ${goaccessDir}/index.html
@@ -96,8 +98,8 @@ in
 
     # Set up nginx to forward requests properly.
     services.nginx.virtualHosts."${hostnameDomain}" = {
-      locations."/metrics" = {
-        root = "${goaccessDir}";
+      locations."/metrics/" = {
+        alias = "${goaccessDir}/";
         extraConfig = ''
           autoindex on;
         '';

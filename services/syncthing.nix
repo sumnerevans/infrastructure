@@ -11,7 +11,7 @@ in
 
   # Use nginx to expose Syncthing via reverse proxy.
   services.nginx.virtualHosts."${hostnameDomain}" = {
-    locations."/syncthing/".proxyPass = "http://localhost:8384";
+    locations."/syncthing/".proxyPass = "http://localhost:8384/";
   };
 
   # Add a backup service for the config.
