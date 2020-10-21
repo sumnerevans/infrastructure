@@ -96,7 +96,10 @@ in
 
     # Set up nginx to forward requests properly.
     services.nginx.virtualHosts."${hostnameDomain}" = {
-      locations."/metrics".root = "${goaccessDir}";
+      locations."/metrics/" = {
+        root = "${goaccessDir}";
+        index = "index.html";
+      };
     };
   };
 }

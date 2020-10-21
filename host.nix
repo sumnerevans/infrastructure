@@ -1,5 +1,7 @@
 { pkgs, ... }: {
-  imports = import ./services/default.nix ++ [
+  imports = import ./services/default.nix
+  ++ [
+    ./programs/default.nix
     ./overlays.nix
   ];
 
