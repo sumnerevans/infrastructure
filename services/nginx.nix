@@ -11,8 +11,7 @@
         "/js/isso.min.js"
         "/profile.jpg"
         "/robots.txt"
-        # "/socket.io/"
-        # "/sumner/blog/wp-content"
+        "/style.css"
       ];
     }
   ];
