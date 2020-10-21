@@ -50,7 +50,10 @@ in
           enableACME = true;
 
           # Enable a status page and expose it.
-          locations."/status".extraConfig = "stub_status on;access_log off;";
+          locations."/status".extraConfig = ''
+            stub_status on;
+            access_log off;
+          '';
         };
       } // listToAttrs (map websiteConfig websites);
   };

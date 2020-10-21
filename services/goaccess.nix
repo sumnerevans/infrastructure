@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: with lib; let
   cfg = config.services.metrics;
   hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
-  goaccessDir = "/var/goaccess/metrics";
+  goaccessDir = "/var/www/goaccess";
   excludeIPs = [
     "184.96.89.215"
   ];
@@ -96,9 +96,11 @@ in
 
     # Set up nginx to forward requests properly.
     services.nginx.virtualHosts."${hostnameDomain}" = {
-      locations."/metrics/" = {
+      locations."/metrics" = {
         root = "${goaccessDir}";
-        index = "index.html";
+        extraConfig = ''
+          autoindex on;
+        '';
       };
     };
   };
