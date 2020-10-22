@@ -7,3 +7,4 @@ result
 secrets/
 secrets.tar
 .secrets_password_file
+.restic_hostname

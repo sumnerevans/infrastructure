@@ -1,4 +1,5 @@
 { config, pkgs, ... }: let
+  loungeHome = "/var/lib/thelounge";
   serverName = "irc.${config.networking.domain}";
 in
 {
@@ -19,7 +20,7 @@ in
 
   users.users.thelounge = {
     useDefaultShell = true;
-    home = "/var/lib/thelounge";
+    home = loungeHome;
   };
 
   # Set up nginx to forward requests properly.
@@ -30,5 +31,10 @@ in
 
       locations."/".proxyPass = "http://127.0.0.1:9000";
     };
+  };
+
+  # Add a backup service.
+  services.backup.backups.lounge = {
+    path = loungeHome;
   };
 }

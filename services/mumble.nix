@@ -37,4 +37,9 @@ in
     enableACME = true;
     locations."/".extraConfig = "return 301 https://mumble.info;";
   };
+
+  # Add a backup service.
+  services.backup.backups.murmur = {
+    path = "/var/lib/murmur";
+  };
 }

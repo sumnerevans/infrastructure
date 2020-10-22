@@ -1,7 +1,8 @@
 { lib, pkgs, ... }: let
+  issoHome = "/var/lib/isso";
   issoConfig = ''
     [general]
-    dbpath = /var/lib/isso/comments.db
+    dbpath = ${issoHome}/comments.db
     host = https://sumnerevans.com
     notify = smtp
     reply-notifications = true
@@ -58,7 +59,7 @@ in
   users.users.isso = {
     description = "Isso server user";
     group = "isso";
-    home = "/var/lib/isso";
+    home = issoHome;
     createHome = true;
   };
 
@@ -70,5 +71,10 @@ in
 
       locations."/".proxyPass = "http://127.0.0.1:8888";
     };
+  };
+
+  # Add a backup service.
+  services.backup.backups.isso = {
+    path = issoHome;
   };
 }

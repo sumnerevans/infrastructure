@@ -61,4 +61,9 @@ in
       };
     };
   };
+
+  # Add a backup service.
+  services.backup.backups.matrix = {
+    path = "/var/lib/matrix-synapse";
+  };
 }

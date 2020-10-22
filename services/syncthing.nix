@@ -21,6 +21,6 @@ in
 
   # Add a backup service for the actual config.
   services.backup.backups.syncthing-data = {
-    path = "/mnt/syncthing_data";
+    path = "/mnt/syncthing-data";
   };
 }
