@@ -16,7 +16,7 @@ in
 
   # Add a backup service for the config.
   services.backup.backups.syncthing-config = {
-    path = "/var/lib/syncthing";
+    path = config.services.syncthing.dataDir;
   };
 
   # Add a backup service for the actual config.

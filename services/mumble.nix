@@ -40,6 +40,6 @@ in
 
   # Add a backup service.
   services.backup.backups.murmur = {
-    path = "/var/lib/murmur";
+    path = config.users.users.murmur.home;
   };
 }

@@ -19,6 +19,6 @@ in
 
   # Add a backup service.
   services.backup.backups.airsonic = {
-    path = "/var/lib/airsonic";
+    path = config.users.users.airsonic.home;
   };
 }
