@@ -1,8 +1,8 @@
 { pkgs, ... }: {
-  imports = import ./services/default.nix
-  ++ [
-    ./programs/default.nix
+  imports = [
     ./overlays.nix
+    ./programs/default.nix
+    ./services/default.nix
   ];
 
   # General packages for system maintenance.
