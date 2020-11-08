@@ -14,32 +14,41 @@
     postUp = "iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE";
     postDown = "iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE";
 
-    peers = [
-      {
-        # jedha
-        allowedIPs = [ "192.168.69.2/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-jedha-presharedkey";
-        publicKey = "kcHAXPtOWQsX8sc9gGXI5q9uxSBdOA1ryk9yNLJIFk8=";
-      }
-      {
-        # coruscant
-        allowedIPs = [ "192.168.69.3/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-coruscant-presharedkey";
-        publicKey = "z2sm3HzY+9+7+lT9rt2Ny7fTxbDVMJv4+jZ3eFlyUCc=";
-      }
-      {
-        # iPad Pro
-        allowedIPs = [ "192.168.69.4/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-ipad-presharedkey";
-        publicKey = "4qHoCiAVYm2kR6Ak4PaEpdUeRJ/oJDlVQvR8Axffv2U=";
-      }
-      {
-        # Google Pixel 3a
-        allowedIPs = [ "192.168.69.5/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-pixel-presharedkey";
-        publicKey = "MGeD4bj63h/EAvI3EYGM3kyQ0mh0Srxv02pTTVl5KwY=";
-      }
-    ];
+    peers = let
+      presharedKeyPath = deviceName: "/etc/nixos/secrets/wireguard-${deviceName}-presharedkey";
+    in
+      [
+        {
+          # jedha
+          allowedIPs = [ "192.168.69.2/32" ];
+          presharedKeyFile = presharedKeyPath "jedha";
+          publicKey = "kcHAXPtOWQsX8sc9gGXI5q9uxSBdOA1ryk9yNLJIFk8=";
+        }
+        {
+          # coruscant
+          allowedIPs = [ "192.168.69.3/32" ];
+          presharedKeyFile = presharedKeyPath "coruscant";
+          publicKey = "z2sm3HzY+9+7+lT9rt2Ny7fTxbDVMJv4+jZ3eFlyUCc=";
+        }
+        {
+          # iPad Pro
+          allowedIPs = [ "192.168.69.4/32" ];
+          presharedKeyFile = presharedKeyPath "ipad";
+          publicKey = "4qHoCiAVYm2kR6Ak4PaEpdUeRJ/oJDlVQvR8Axffv2U=";
+        }
+        {
+          # Google Pixel 3a
+          allowedIPs = [ "192.168.69.5/32" ];
+          presharedKeyFile = presharedKeyPath "pixel";
+          publicKey = "MGeD4bj63h/EAvI3EYGM3kyQ0mh0Srxv02pTTVl5KwY=";
+        }
+        {
+          # mustafar
+          allowedIPs = [ "192.168.69.6/32" ];
+          presharedKeyFile = presharedKeyPath "mustafar";
+          publicKey = "x8uqET3xM3rA2zNXViousJoJAQEL0YS7I4RXcp04jm4=";
+        }
+      ];
   };
 
   # Open up the ports
