@@ -18,26 +18,32 @@
       {
         # jedha
         allowedIPs = [ "192.168.69.2/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-jedha-presharedkey";
+        presharedKeyFile = ../secrets/wireguard-jedha-presharedkey;
         publicKey = "kcHAXPtOWQsX8sc9gGXI5q9uxSBdOA1ryk9yNLJIFk8=";
       }
       {
         # coruscant
         allowedIPs = [ "192.168.69.3/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-coruscant-presharedkey";
+        presharedKeyFile = ../secrets/wireguard-coruscant-presharedkey;
         publicKey = "z2sm3HzY+9+7+lT9rt2Ny7fTxbDVMJv4+jZ3eFlyUCc=";
       }
       {
         # iPad Pro
         allowedIPs = [ "192.168.69.4/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-ipad-presharedkey";
+        presharedKeyFile = ../secrets/wireguard-ipad-presharedkey;
         publicKey = "4qHoCiAVYm2kR6Ak4PaEpdUeRJ/oJDlVQvR8Axffv2U=";
       }
       {
         # Google Pixel 3a
         allowedIPs = [ "192.168.69.5/32" ];
-        presharedKeyFile = "/etc/nixos/secrets/wireguard-pixel-presharedkey";
+        presharedKeyFile = ../secrets/wireguard-pixel-presharedkey;
         publicKey = "MGeD4bj63h/EAvI3EYGM3kyQ0mh0Srxv02pTTVl5KwY=";
+      }
+      {
+        # mustafar
+        allowedIPs = [ "192.168.69.6/32" ];
+        presharedKeyFile = ../secrets/wireguard-mustafar-presharedkey;
+        publicKey = "x8uqET3xM3rA2zNXViousJoJAQEL0YS7I4RXcp04jm4=";
       }
     ];
   };
