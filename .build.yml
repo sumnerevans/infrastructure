@@ -12,7 +12,7 @@ secrets:
   # README Personal Access Token
   - 2fb5fd72-fa96-46c6-ab90-6b7cabebba16
   # SSH Known Hosts
-  - a9b7dc2e-293f-4fea-aec7-618689d4e5f2
+  - 5f8876fe-b2b7-44f8-8ad5-6fa9bffbc52a
   # SSH Deploy Key
   - f219888a-80af-4275-a777-89e8c7d277f0
   # Secrets Password File
