@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: with lib; let
+{ config, lib, options, pkgs, ... }: with lib; let
   cfg = config.services.metrics;
   hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
   goaccessDir = "/var/www/goaccess";
@@ -6,7 +6,7 @@
     "184.96.89.215"
   ];
 
-  goaccessWebsiteMetricsScriptPart = { hostname, excludeTerms ? [] }: ''
+  goaccessWebsiteMetricsScriptPart = { hostname, excludeTerms ? [], ... }: ''
     mkdir -p ${goaccessDir}/${hostname}
 
     # combine the gzipped and non-gziped logs together
@@ -62,6 +62,11 @@ in
         hostname = mkOption {
           type = types.str;
           description = "Website name";
+        };
+        extraLocations = mkOption {
+          type = types.attrsOf (types.submodule options.services.nginx.virtualHosts.locations.type);
+          description = "Exclude patterns for metrics.";
+          default = [];
         };
         excludeTerms = mkOption {
           type = types.listOf types.str;

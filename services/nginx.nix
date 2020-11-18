@@ -2,9 +2,18 @@
   hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
   websites = [
     { hostname = "the-evans.family"; }
-    { hostname = "qs.sumnerevans.com"; }
+    { hostname = "qs.${config.networking.domain}"; }
     {
-      hostname = "sumnerevans.com";
+      # sumnerevans.com
+      hostname = config.networking.domain;
+      extraLocations = {
+        "/teaching" = {
+          root = "/var/www/teaching";
+          extraConfig = ''
+            access_log /var/log/nginx/${config.networking.domain}.access.log;
+          '';
+        };
+      };
       excludeTerms = [
         "/.well-known/"
         "/dark-theme.min.js"
@@ -30,16 +39,18 @@ in
 
     virtualHosts = let
       # Put logs for each website in a separate log file.
-      websiteConfig = { hostname, ... }: {
+      websiteConfig = { hostname, extraLocations ? {}, ... }: {
         name = hostname;
         value = {
           forceSSL = true;
           enableACME = true;
-          locations."/" = {
-            root = "/var/www/${hostname}";
-            extraConfig = ''
-              access_log /var/log/nginx/${hostname}.access.log;
-            '';
+          locations = extraLocations // {
+            "/" = {
+              root = "/var/www/${hostname}";
+              extraConfig = ''
+                access_log /var/log/nginx/${hostname}.access.log;
+              '';
+            };
           };
         };
       };
