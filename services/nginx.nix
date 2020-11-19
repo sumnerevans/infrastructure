@@ -9,6 +9,7 @@
       extraLocations = {
         "/teaching" = {
           root = "/var/www/teaching";
+          priority = 0;
           extraConfig = ''
             access_log /var/log/nginx/${config.networking.domain}.access.log;
           '';
