@@ -25,19 +25,35 @@ triggers:
     condition: failure
     to: alerts@sumnerevans.com
 tasks:
+  # Skip everything if not on master.
+  - skip_not_master: |
+      cd $REPO_NAME
+      git branch --contains | grep master || echo "Skipping README deploy since not on master"
+      git branch --contains | grep master || complete-build
+
   - setup: |
       echo "cd $REPO_NAME" >> ~/.buildenv
 
-  # If we are on the master branch, compile the README.rst to HTML and set it
-  # as the README for the repo.
-  - readme: |
+  - set_readme: |
       set +x
-      ./bin/deploy_readme
+      set -e
+      rst2html5 README.rst | \
+        curl -H "Content-Type: text/html" \
+             -H "Authorization: Bearer $(cat ~/.readme-token)" \
+             -XPUT \
+             --data-binary @- \
+             "https://git.sr.ht/api/repos/${REPO_NAME}/readme"
 
-  # Send all of the secrets to the server.
   - send-secrets: |
-      ./bin/send_secrets
+      ./secrets_file_manager.sh extract
+      rsync -vr --delete-after secrets/ root@bespin.sumnerevans.com:/etc/nixos/secrets
+      rm -rf $SECRETS_FILE_PATH secrets
 
-  # Switch commits, build, and switch to the new generation
+  - switch-commit: |
+      ssh root@bespin.sumnerevans.com "cd /etc/nixos && git fetch && git reset --hard $(git rev-parse HEAD)"
+
+  - remote-build: |
+      ssh root@bespin.sumnerevans.com "nixos-rebuild build --show-trace"
+
   - switch-generation: |
-      ./bin/switch_generation
+      ssh root@bespin.sumnerevans.com "nixos-rebuild switch --show-trace"
