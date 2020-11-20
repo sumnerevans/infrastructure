@@ -46,6 +46,7 @@
     enable = true;
     allowReboot = true;
     dates = "monthly";
+    channel = https://nixos.org/channels/nixos-unstable;
   };
 
   # Garbage collect the old generations.
