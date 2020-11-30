@@ -12,6 +12,7 @@
           priority = 0;
           extraConfig = ''
             access_log /var/log/nginx/${config.networking.domain}.access.log;
+            autoindex on;
           '';
         };
       };
