@@ -4,6 +4,28 @@ let
   matrixDomain = "matrix.${config.networking.domain}";
 in
 {
+  # This is required until https://github.com/NixOS/nixpkgs/pull/106436 is in
+  # unstable.
+  nixpkgs.overlays = [
+    (
+      self: super: {
+        matrix-synapse = let
+          version = "1.24.0";
+          pname = "matrix-synapse";
+        in
+          super.matrix-synapse.overrideAttrs (
+            old: {
+              inherit version pname;
+              src = pkgs.python3.pkgs.fetchPypi {
+                inherit pname version;
+                sha256 = "sha256-yxcdFd7iVXbDIUx1lW73FKLy+BZfSspz60LKw7BCtl4=";
+              };
+            }
+          );
+      }
+    )
+  ];
+
   # Run Synapse
   services.matrix-synapse = {
     enable = true;

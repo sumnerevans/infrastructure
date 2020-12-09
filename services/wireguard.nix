@@ -88,4 +88,7 @@
       interfaces = [ "0.0.0.0" ];
       extraConfig = extraConfig;
     };
+
+  # Remove after https://github.com/NixOS/nixpkgs/pull/106308 is in unstable.
+  systemd.services.unbound.serviceConfig.RestrictAddressFamilies = [ "AF_NETLINK" ];
 }
