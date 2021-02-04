@@ -24,6 +24,7 @@
         "/profile.jpg"
         "/robots.txt"
         "/style.css"
+        "/teaching/csci564-s21/_static/"
       ];
     }
   ];
