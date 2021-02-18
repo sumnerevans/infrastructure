@@ -4,7 +4,6 @@ packages:
   - nixos.git
   - nixos.openssh
   - nixos.openssl
-  - nixos.rst2html5
   - nixos.rsync
 sources:
   - https://git.sr.ht/~sumner/infrastructure
@@ -33,16 +32,6 @@ tasks:
 
   - setup: |
       echo "cd $REPO_NAME" >> ~/.buildenv
-
-  - set_readme: |
-      set +x
-      set -e
-      rst2html5 README.rst | \
-        curl -H "Content-Type: text/html" \
-             -H "Authorization: Bearer $(cat ~/.readme-token)" \
-             -XPUT \
-             --data-binary @- \
-             "https://git.sr.ht/api/repos/${REPO_NAME}/readme"
 
   - send-secrets: |
       ./secrets_file_manager.sh extract

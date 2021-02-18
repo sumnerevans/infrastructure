@@ -6,7 +6,6 @@ pkgs.mkShell {
     openssl
     pass
     rnix-lsp
-    # rst2html5
 
     (
       python38.withPackages (
