@@ -19,7 +19,7 @@
     username = comments@sumnerevans.com
     password = ${lib.removeSuffix "\n" (builtins.readFile ../secrets/isso-comments-smtp-password)}
     host = smtp.migadu.com
-    port = 587
+    port = 465
     security = starttls
     to = admin@sumnerevans.com
     from = comments@sumnerevans.com
