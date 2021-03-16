@@ -23,7 +23,7 @@
   resticRepository = "b2:${bucket}:${repoPath}";
   # TODO be able to restore from a different repo path
 
-  resticCmd = "${pkgs.restic}/bin/restic";
+  resticCmd = "${pkgs.restic}/bin/restic --verbose=3";
 
   resticEnvironment = {
     RESTIC_PASSWORD_FILE = resticPasswordFile;
@@ -41,7 +41,6 @@
 
     # Perfrom the backup
     ${resticCmd} backup \
-      --verbose \
       ${concatStringsSep " " paths} \
       ${concatMapStringsSep " " (e: "-e \"${e}\"") exclude}
 
