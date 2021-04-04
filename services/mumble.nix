@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, lib, pkgs, ... }:
+let
   certs = config.security.acme.certs;
   serverName = "mumble.${config.networking.domain}";
   certDirectory = "${certs.${serverName}.directory}";
@@ -9,20 +10,17 @@ in
     enable = true;
     registerHostname = serverName;
     registerName = "Sumner's Mumble Server";
-    welcometext = "Welcome to Sumner's Mumble Server. Enjoy your stay!";
+    welcometext = ''
+      Welcome to Sumner's Mumble Server.
+
+      If you are here for office hours, join the "Office Hours" channel. I will
+      manually move you to a breakout room if necessary.
+    '';
 
     # Keys
     sslCert = "${certDirectory}/fullchain.pem";
     sslKey = "${certDirectory}/key.pem";
     sslCa = "${certDirectory}/full.pem";
-  };
-
-  # Always make sure that the certificate is accessible to the murmur service.
-  systemd.services.murmur.serviceConfig = {
-    PermissionsStartOnly = true;
-    # ExecStartPre = ''
-    #   ${pkgs.coreutils}/bin/chown -R murmur ${certDirectory}
-    # '';
   };
 
   # Open up the ports for TCP and UDP
@@ -33,10 +31,13 @@ in
 
   # Use nginx to do the ACME verification for mumble.
   services.nginx.virtualHosts."${serverName}" = {
-    forceSSL = true;
     enableACME = true;
     locations."/".extraConfig = "return 301 https://mumble.info;";
   };
+
+  # https://github.com/NixOS/nixpkgs/issues/106068#issuecomment-739534275
+  security.acme.certs."mumble.sumnerevans.com".group = "murmur-cert";
+  users.groups.murmur-cert.members = [ "murmur" "nginx" ];
 
   # Add a backup service.
   services.backup.backups.murmur = {
