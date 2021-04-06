@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    # ./maubot.nix
+    ./maubot.nix
     ./synapse.nix
   ];
 }

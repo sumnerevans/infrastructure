@@ -1,48 +1,25 @@
 { lib, pkgs, fetchFromGitHub }: with pkgs; let
-  py = python3.override {
-    packageOverrides = self: super: {
-      prompt_toolkit = super.prompt_toolkit.overridePythonAttrs (
-        oldAttrs: rec {
-          version = "1.0.14";
-          src = oldAttrs.src.override {
-            inherit version;
-            sha256 = "cc66413b1b4b17021675d9f2d15d57e640b06ddfd99bb724c73484126d22622f";
-          };
-        }
-      );
-
-      mautrix = super.mautrix.overridePythonAttrs (
-        oldAttrs: rec {
-          version = "0.7.14";
-          doCheck = false;
-          src = oldAttrs.src.override {
-            inherit version;
-            sha256 = "d003cc0f36a6d1e632e4364c7ac7e25c66d7acf4fe65b4396de2aa41697dc2d0";
-          };
-        }
-      );
-    };
-  };
-  PyInquirer = py.pkgs.buildPythonApplication rec {
+  PyInquirer = python38Packages.buildPythonPackage rec {
     pname = "PyInquirer";
-    version = "1.0.3";
-    src = python38.pkgs.fetchPypi {
-      inherit pname version;
-      sha256 = "c9a92d68d7727fbd886a7908c08fd9e9773e5dc211bf5cbf836ba90d366dee51";
+    version = "unstable-2021-04-06";
+    src = pkgs.fetchFromGitHub {
+      owner = "CITGuru";
+      repo = "PyInquirer";
+      rev = "7485a1fd5442332399d5f05c84e4fd74b63a5823";
+      sha256 = "18nv1ck212s14qsyv9r0awlv24qwz0r8vc4yajv70icaf56mdlc4";
     };
-    propagatedBuildInputs = with py.pkgs; [
+    propagatedBuildInputs = with python38Packages; [
       prompt_toolkit
       pygments
-      regex
     ];
     doCheck = false;
   };
 in
-buildPythonApplication rec {
+python38Packages.buildPythonPackage rec {
   pname = "maubot";
-  version = "0.1.0";
+  version = "unstable-2021-04-06";
 
-  propagatedBuildInputs = with py.pkgs;[
+  propagatedBuildInputs = with python38Packages; [
     aiohttp
     alembic
     attrs
@@ -54,15 +31,17 @@ buildPythonApplication rec {
     mautrix
     packaging
     PyInquirer
-    ruamel_yaml
+    ruamel-yaml
     sqlalchemy
     yarl
   ];
 
   doCheck = false;
 
-  src = python38.pkgs.fetchPypi {
-    inherit pname version;
-    sha256 = "23da68ce05c55167d9e91d73b601d5050aec40d84269b662e14b9ae6a5ed08e2";
+  src = pkgs.fetchFromGitHub {
+    owner = "maubot";
+    repo = "maubot";
+    rev = "a078bdd120908367923cf80445f267f165e89e12";
+    sha256 = "1669iy01d59h33g3fz1190v6daldjzb1l9msyqmkdznw72q3vxc4";
   };
 }

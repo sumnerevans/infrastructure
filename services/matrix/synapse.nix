@@ -1,5 +1,5 @@
 # See: https://nixos.org/nixos/manual/index.html#module-services-matrix-synapse
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }: with lib;
 let
   matrixDomain = "matrix.${config.networking.domain}";
 in
