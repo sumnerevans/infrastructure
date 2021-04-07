@@ -12,7 +12,6 @@ let
   pluginDir = "${maubotDir}/plugins";
   logDir = "${maubotDir}/logs";
   trashDir = "${maubotDir}/trash";
-  alembicDir = "${maubotDir}/alembic";
 
   # https://raw.githubusercontent.com/maubot/maubot/master/example-config.yaml
   maubotConfig = {
@@ -64,10 +63,10 @@ let
   };
 
   alembicConfig = {
-    alembic.scriptLocation = alembicDir;
-    loggers.keys = [ "root" "sqlalchemy" "alembic" ];
-    handlers.keys = [ "console" ];
-    formatters.keys = [ "generic" ];
+    alembic.script_location = "${python}/alembic";
+    loggers.keys = "root,sqlalchemy,alembic";
+    handlers.keys = "console";
+    formatters.keys = "generic";
     logger_root = { level = "WARN"; handlers = "console"; };
     logger_sqlalchemy = { level = "WARN"; qualname = "sqlalchemy.engine"; };
     logger_alembic = { level = "INFO"; qualname = "alembic"; };
@@ -94,7 +93,7 @@ in
 
     serviceConfig = {
       ExecStartPre = [
-        "${pkgs.coreutils}/bin/mkdir -p ${cryptoDir} ${pluginDir} ${logDir} ${trashDir} ${alembicDir}"
+        "${pkgs.coreutils}/bin/mkdir -p ${cryptoDir} ${pluginDir} ${logDir} ${trashDir}"
         "${python}/bin/alembic -c ${alembicConfigFile} -x config=${configFile} upgrade head"
       ];
       ExecStart = "${python}/bin/python -m maubot -c ${configFile}";
