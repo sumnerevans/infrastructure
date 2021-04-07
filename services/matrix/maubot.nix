@@ -43,12 +43,25 @@ let
     };
     logging = {
       version = 1;
-      handlers.file = {
-        class = "logging.handlers.RotatingFileHandler";
-        formatter = "normal";
-        filename = "${logDir}/mautrix.log";
-        maxBytes = 10485760;
-        backupCount = 10;
+      formatters = {
+        normal.format = "[%(asctime)s] [%(levelname)s@%(name)s] %(message)s";
+        colored = {
+          "()" = "maubot.lib.color_log.ColorFormatter";
+          format = "[%(asctime)s] [%(levelname)s@%(name)s] %(message)s";
+        };
+      };
+      handlers = {
+        file = {
+          class = "logging.handlers.RotatingFileHandler";
+          formatter = "normal";
+          filename = "${logDir}/mautrix.log";
+          maxBytes = 10485760;
+          backupCount = 10;
+        };
+        console = {
+          class = "logging.StreamHandler";
+          formatter = "colored";
+        };
       };
       loggers = {
         maubot.level = "DEBUG";
@@ -67,9 +80,21 @@ let
     loggers.keys = "root,sqlalchemy,alembic";
     handlers.keys = "console";
     formatters.keys = "generic";
-    logger_root = { level = "WARN"; handlers = "console"; };
-    logger_sqlalchemy = { level = "WARN"; qualname = "sqlalchemy.engine"; };
-    logger_alembic = { level = "INFO"; qualname = "alembic"; };
+    logger_root = {
+      level = "WARN";
+      handlers = "console";
+      qualname = "";
+    };
+    logger_sqlalchemy = {
+      level = "WARN";
+      handlers = "";
+      qualname = "sqlalchemy.engine";
+    };
+    logger_alembic = {
+      level = "INFO";
+      handlers = "";
+      qualname = "alembic";
+    };
     handler_console = {
       class = "StreamHandler";
       args = "(sys.stderr,)";
@@ -96,7 +121,7 @@ in
         "${pkgs.coreutils}/bin/mkdir -p ${cryptoDir} ${pluginDir} ${logDir} ${trashDir}"
         "${python}/bin/alembic -c ${alembicConfigFile} -x config=${configFile} upgrade head"
       ];
-      ExecStart = "${python}/bin/python -m maubot -c ${configFile}";
+      ExecStart = "${python}/bin/python -m maubot -c ${configFile} -b ${python}/example-config.yaml";
     };
   };
 
