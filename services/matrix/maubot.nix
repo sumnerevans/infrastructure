@@ -2,7 +2,7 @@
 let
   matrixDomain = "matrix.${config.networking.domain}";
 
-  maubot = pkgs.callPackage ../../pkgs/maubot.nix { };
+  maubot = pkgs.callPackage ../../pkgs/maubot { };
   python = pkgs.python38.withPackages (
     ps: with ps; [ maubot ]
   );
