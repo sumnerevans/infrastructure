@@ -38,6 +38,55 @@ python38Packages.buildPythonPackage rec {
 
   doCheck = false;
 
+  yarnCache = stdenv.mkDerivation {
+    name = "${pname}-${version}-${system}-yarn-cache";
+    inherit src;
+    phases = [ "unpackPhase" "buildPhase" ];
+    nativeBuildInputs = [ yarn ];
+    buildPhase = ''
+      export HOME=$NIX_BUILD_ROOT
+
+      pushd maubot/management/frontend
+
+        yarn config set yarn-offline-mirror $out
+        yarn --frozen-lockfile --ignore-scripts --ignore-platform \
+          --ignore-engines --no-progress --non-interactive
+
+      popd
+    '';
+
+    outputHashMode = "recursive";
+    outputHashAlgo = "sha256";
+    outputHash = {
+      x86_64-linux = "00000000000000000000000000000000000000000000";
+    }.${system} or (throw "Unsupported platform ${system}");
+  };
+
+  nativeBuildInputs = [ makeWrapper nodejs yarn ];
+
+  configurePhase = ''
+    # Yarn and bundler wants a real home directory to write cache, config, etc to
+    export HOME=$NIX_BUILD_ROOT
+
+    pushd maubot/management/frontend
+
+      # Make yarn install packages from our offline cache, not the registry
+      yarn config --offline set yarn-offline-mirror ${yarnCache}
+
+    popd
+  '';
+
+  buidPhase = ''
+    pushd maubot/management/frontend
+      yarn install --production --offline --ignore-scripts --frozen-lockfile --no-progress --non-interactive
+
+      patchShebangs node_modules/
+
+      yarn build
+    popd
+  '';
+
+
   src = pkgs.fetchFromGitHub {
     owner = "maubot";
     repo = "maubot";
