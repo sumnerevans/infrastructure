@@ -6,6 +6,8 @@ pkgs.mkShell {
     openssl
     pass
     rnix-lsp
+    wget
+    yarn2nix
 
     (
       python38.withPackages (

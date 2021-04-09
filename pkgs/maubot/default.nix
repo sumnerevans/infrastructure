@@ -58,16 +58,20 @@ python38Packages.buildPythonPackage rec {
       # Make yarn install packages from our offline cache, not the registry
       yarn config --offline set yarn-offline-mirror ${yarnOfflineCache}
 
+      yarn install --production --offline --ignore-scripts --frozen-lockfile --no-progress --non-interactive
+
     popd
   '';
 
-  buidPhase = ''
+  buildPhase = ''
     # Yarn and bundler wants a real home directory to write cache, config, etc to
     export HOME=$NIX_BUILD_ROOT
 
     pushd maubot/management/frontend
 
-      yarn install --production --offline --ignore-scripts --frozen-lockfile --no-progress --non-interactive
+      # Make yarn install packages from our offline cache, not the registry
+      yarn config --offline set yarn-offline-mirror ${yarnOfflineCache}
+
       patchShebangs node_modules/
       yarn build
 
