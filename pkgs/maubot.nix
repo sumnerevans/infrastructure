@@ -40,7 +40,7 @@ python38Packages.buildPythonPackage rec {
 
   yarnCache = stdenv.mkDerivation {
     name = "${pname}-${version}-${system}-yarn-cache";
-    inherit src;
+    inherit src patches;
     phases = [ "unpackPhase" "buildPhase" ];
     nativeBuildInputs = [ yarn ];
     buildPhase = ''
@@ -58,7 +58,7 @@ python38Packages.buildPythonPackage rec {
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
     outputHash = {
-      x86_64-linux = "00000000000000000000000000000000000000000000";
+      x86_64-linux = "0000000000000000000000000000000000000000000000000000";
     }.${system} or (throw "Unsupported platform ${system}");
   };
 
@@ -93,4 +93,6 @@ python38Packages.buildPythonPackage rec {
     rev = "a078bdd120908367923cf80445f267f165e89e12";
     sha256 = "1669iy01d59h33g3fz1190v6daldjzb1l9msyqmkdznw72q3vxc4";
   };
+
+  patches = [ ./0001-Update-peer-dependencies.patch ];
 }

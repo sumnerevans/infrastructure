@@ -1,0 +1,71 @@
+From f5de5dfe82c1f2d3778690308e170851acdf84b5 Mon Sep 17 00:00:00 2001
+From: Sumner Evans <me@sumnerevans.com>
+Date: Fri, 9 Apr 2021 16:57:33 -0600
+Subject: [PATCH] Update peer dependencies
+
+---
+ maubot/management/frontend/package.json | 8 +++++---
+ maubot/management/frontend/yarn.lock    | 7 ++++++-
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/maubot/management/frontend/package.json b/maubot/management/frontend/package.json
+index 1c5bd7b..9c496e9 100644
+--- a/maubot/management/frontend/package.json
++++ b/maubot/management/frontend/package.json
+@@ -14,6 +14,7 @@
+   "homepage": ".",
+   "dependencies": {
+     "node-sass": "^4.12.0",
++    "prop-types": "^15.0.0",
+     "react": "^16.8.6",
+     "react-ace": "^9.0.0",
+     "react-contextmenu": "^2.11.0",
+@@ -21,7 +22,8 @@
+     "react-json-tree": "^0.11.2",
+     "react-router-dom": "^5.0.1",
+     "react-scripts": "3.4.1",
+-    "react-select": "^3.0.4"
++    "react-select": "^3.0.4",
++    "typescript": ">=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta"
+   },
+   "scripts": {
+     "start": "react-scripts start",
+@@ -38,8 +40,8 @@
+     "last 2 ios_saf versions"
+   ],
+   "devDependencies": {
++    "@babel/helper-call-delegate": "^7.10.4",
+     "sass-lint": "^1.13.1",
+-    "sass-lint-auto-fix": "^0.21.0",
+-    "@babel/helper-call-delegate": "^7.10.4"
++    "sass-lint-auto-fix": "^0.21.0"
+   }
+ }
+diff --git a/maubot/management/frontend/yarn.lock b/maubot/management/frontend/yarn.lock
+index 0748f93..f6decd9 100644
+--- a/maubot/management/frontend/yarn.lock
++++ b/maubot/management/frontend/yarn.lock
+@@ -9227,7 +9227,7 @@ prompts@^2.0.1:
+     kleur "^3.0.3"
+     sisteransi "^1.0.4"
+ 
+-prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
++prop-types@^15.0.0, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
+   version "15.7.2"
+   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
+@@ -11297,6 +11297,11 @@ typedarray@^0.0.6:
+   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+ 
++"typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta":
++  version "4.2.4"
++  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
++  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
++
+ unicode-canonical-property-names-ecmascript@^1.0.4:
+   version "1.0.4"
+   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
+-- 
+2.31.0
+
