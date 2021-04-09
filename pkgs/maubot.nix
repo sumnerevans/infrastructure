@@ -76,7 +76,7 @@ python38Packages.buildPythonPackage rec {
     popd
   '';
 
-  buidPhase = ''
+  buildPhase = ''
     pushd maubot/management/frontend
       yarn install --production --offline --ignore-scripts --frozen-lockfile --no-progress --non-interactive
 
