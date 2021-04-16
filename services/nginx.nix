@@ -28,6 +28,30 @@
       ];
     }
   ];
+
+  permissionsPolicyDisables = [
+    "accelerometer"
+    "camera"
+    "geolocation"
+    "gyroscope"
+    "interest-cohort"
+    "magnetometer"
+    "microphone"
+    "payment"
+    "usb"
+  ];
+
+  # https://securityheaders.com/?q=sumnerevans.com&followRedirects=on
+  securityHeaders = mapAttrsToList (k: v: ''add_header ${k} "${v}";'') {
+    # Disable using my website in FLoC calculations.
+    # https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/
+    "Permissions-Policy" = concatMapStringsSep ", " (d: "${d}=()") permissionsPolicyDisables;
+    "Strict-Transport-Security" = "max-age=31536000; includeSubDomains";
+    "X-Frame-Options" = "SAMEORIGIN";
+    "X-Content-Type-Options" = "nosniff";
+    "Referrer-Policy" = "same-origin";
+    "Content-Security-Policy" = "default-src https: 'unsafe-inline'";
+  };
 in
 {
   # Enable nginx and add the static websites.
@@ -54,8 +78,7 @@ in
                   # Put logs for each website in a separate log file.
                   access_log /var/log/nginx/${hostname}.access.log;
 
-                  # Disable using my website in FLoC calculations.
-                  add_header Permissions-Policy interest-cohort=();
+                  ${concatStringsSep "\n" securityHeaders}
                 '';
               };
             };
