@@ -40,26 +40,30 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts = let
-      # Put logs for each website in a separate log file.
-      websiteConfig = { hostname, extraLocations ? {}, ... }: {
-        name = hostname;
-        value = {
-          forceSSL = true;
-          enableACME = true;
-          locations = extraLocations // {
-            "/" = {
-              root = "/var/www/${hostname}";
-              extraConfig = ''
-                access_log /var/log/nginx/${hostname}.access.log;
-              '';
+    virtualHosts =
+      let
+        websiteConfig = { hostname, extraLocations ? { }, ... }: {
+          name = hostname;
+          value = {
+            forceSSL = true;
+            enableACME = true;
+            locations = extraLocations // {
+              "/" = {
+                root = "/var/www/${hostname}";
+                extraConfig = ''
+                  # Put logs for each website in a separate log file.
+                  access_log /var/log/nginx/${hostname}.access.log;
+
+                  # Disable using my website in FLoC calculations.
+                  add_header Permissions-Policy interest-cohort=();
+                '';
+              };
             };
           };
         };
-      };
-    in
+      in
       {
-        "${hostnameDomain}" = {
+        ${hostnameDomain} = {
           forceSSL = true;
           enableACME = true;
 
