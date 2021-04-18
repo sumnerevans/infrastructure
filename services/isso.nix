@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }: let
+{ lib, pkgs, ... }:
+let
   issoHome = "/var/lib/isso";
   issoConfig = ''
     [general]
@@ -55,10 +56,11 @@ in
     };
   };
 
-  users.groups.isso = {};
+  users.groups.isso = { };
   users.users.isso = {
     description = "Isso server user";
     group = "isso";
+    isSystemUser = true;
     home = issoHome;
     createHome = true;
   };
