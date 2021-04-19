@@ -4,6 +4,7 @@
     ./airsonic.nix
     ./bitwarden.nix
     ./goaccess.nix
+    ./gonic.nix
     ./isso.nix
     ./logrotate.nix
     ./longview.nix
@@ -18,4 +19,18 @@
     ./wireguard.nix
     ./xandikos.nix
   ];
+
+  services.gonic = {
+    enable = true;
+    virtualHost = "music.sumnerevans.com";
+    musicPath = "/var/lib/gonic/music";
+    podcastPath = "/var/lib/gonic/podcasts";
+  };
+
+  services.nginx.virtualHosts = {
+    "music.sumnerevans.com" = {
+      forceSSL = true;
+      enableACME = true;
+    };
+  };
 }
