@@ -7,7 +7,6 @@ in
   # Run Synapse
   services.matrix-synapse = {
     enable = true;
-    enable_metrics = true;
     enable_registration = false;
     registration_shared_secret = lib.removeSuffix "\n"
       (builtins.readFile ../../secrets/matrix-registration-shared-secret);
@@ -28,6 +27,10 @@ in
         ];
       }
     ];
+    extraConfig = ''
+      experimental_features:
+        spaces_enabled: True
+    '';
   };
 
   # Make sure that Postgres is setup for Synapse.
