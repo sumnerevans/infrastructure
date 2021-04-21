@@ -20,13 +20,6 @@
     ./xandikos.nix
   ];
 
-  services.gonic = {
-    enable = true;
-    virtualHost = "music.sumnerevans.com";
-    musicPath = "/var/lib/gonic/music";
-    podcastPath = "/var/lib/gonic/podcasts";
-  };
-
   services.nginx.virtualHosts = {
     "music.sumnerevans.com" = {
       forceSSL = true;
