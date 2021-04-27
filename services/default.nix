@@ -4,7 +4,7 @@
     ./airsonic.nix
     ./bitwarden.nix
     ./goaccess.nix
-    ./gonic.nix
+    # ./gonic.nix
     ./isso.nix
     ./logrotate.nix
     ./longview.nix
