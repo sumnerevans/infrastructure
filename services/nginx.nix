@@ -50,7 +50,7 @@
     "X-Frame-Options" = "SAMEORIGIN";
     "X-Content-Type-Options" = "nosniff";
     "Referrer-Policy" = "same-origin";
-    "Content-Security-Policy" = "default-src https: 'unsafe-inline'";
+    "Content-Security-Policy" = "default-src https: 'unsafe-inline' 'unsafe-eval'";
   };
 in
 {
