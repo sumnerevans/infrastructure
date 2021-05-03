@@ -94,10 +94,11 @@
 
   # Services
   # ===========================================================================
-  resticBackupService = backups: exclude: let
-    paths = mapAttrsToList (n: { path, ... }: path) backups;
-    script = resticBackupScript paths (exclude ++ [ ".restic-backup-restored" ]);
-  in
+  resticBackupService = backups: exclude:
+    let
+      paths = mapAttrsToList (n: { path, ... }: path) backups;
+      script = resticBackupScript paths (exclude ++ [ ".restic-backup-restored" ]);
+    in
     {
       name = "restic-backup";
       value = {
@@ -138,9 +139,10 @@
     };
   };
 
-  resticRestoreService = name: { path, serviceName, ... }: let
-    script = resticRestoreScript path;
-  in
+  resticRestoreService = name: { path, serviceName, ... }:
+    let
+      script = resticRestoreScript path;
+    in
     {
       name = serviceName;
       value = {
@@ -154,27 +156,28 @@
     };
 in
 {
-  options = let
-    backupDirOpts = { name, ... }: {
-      options = {
-        path = mkOption {
-          type = types.str;
-          description = "The path to backup using restic.";
-        };
-        serviceName = mkOption {
-          type = types.str;
-          default = "restic-restore-${name}";
-          description = "The name of the restore service to create.";
+  options =
+    let
+      backupDirOpts = { name, ... }: {
+        options = {
+          path = mkOption {
+            type = types.str;
+            description = "The path to backup using restic.";
+          };
+          serviceName = mkOption {
+            type = types.str;
+            default = "restic-restore-${name}";
+            description = "The name of the restore service to create.";
+          };
         };
       };
-    };
-  in
+    in
     {
       services.backup = {
         backups = mkOption {
           type = with types; attrsOf (submodule backupDirOpts);
           description = "List of backup configurations.";
-          default = {};
+          default = { };
         };
 
         exclude = mkOption {
@@ -183,25 +186,26 @@ in
             List of patterns to exclude. `.restic-backup-restored` files are
             already ignored.
           '';
-          default = [];
+          default = [ ];
           example = [ ".git/*" ];
         };
       };
     };
 
-  config = mkIf (cfg != {}) {
-    systemd.services = let
-      resticServices = [
-        # The main backup service.
-        (resticBackupService cfg.backups cfg.exclude)
+  config = mkIf (cfg != { }) {
+    systemd.services =
+      let
+        resticServices = [
+          # The main backup service.
+          (resticBackupService cfg.backups cfg.exclude)
 
-        # The main prune service.
-        resticPruneService
-      ]
+          # The main prune service.
+          resticPruneService
+        ]
 
-      # The restore services.
-      ++ mapAttrsToList resticRestoreService cfg.backups;
-    in
+        # The restore services.
+        ++ mapAttrsToList resticRestoreService cfg.backups;
+      in
       listToAttrs resticServices;
   };
 }

@@ -28,7 +28,7 @@
 
   pipeIf = condition: cmd: if condition then "| ${cmd}" else "";
 
-  goaccessWebsiteMetricsScript = { hostname, excludeTerms ? [], ... }:
+  goaccessWebsiteMetricsScript = { hostname, excludeTerms ? [ ], ... }:
     pkgs.writeShellScript "goaccess-${hostname}" ''
       set -xef
       cd /var/log/nginx
@@ -83,26 +83,27 @@
   '';
 in
 {
-  options = let
-    websiteOpts = { ... }: {
-      options = {
-        hostname = mkOption {
-          type = types.str;
-          description = "Website name";
-        };
-        extraLocations = mkOption {
-          type = types.attrsOf (types.submodule options.services.nginx.virtualHosts.locations.type);
-          description = "Exclude patterns for metrics.";
-          default = [];
-        };
-        excludeTerms = mkOption {
-          type = types.listOf types.str;
-          description = "Exclude patterns for metrics.";
-          default = [];
+  options =
+    let
+      websiteOpts = { ... }: {
+        options = {
+          hostname = mkOption {
+            type = types.str;
+            description = "Website name";
+          };
+          extraLocations = mkOption {
+            type = types.attrsOf (types.submodule options.services.nginx.virtualHosts.locations.type);
+            description = "Exclude patterns for metrics.";
+            default = [ ];
+          };
+          excludeTerms = mkOption {
+            type = types.listOf types.str;
+            description = "Exclude patterns for metrics.";
+            default = [ ];
+          };
         };
       };
-    };
-  in
+    in
     {
       services.metrics = {
         websites = mkOption {
@@ -110,27 +111,28 @@ in
           description = ''
             A list of websites to create metrics for.
           '';
-          default = [];
+          default = [ ];
         };
       };
     };
 
-  config = mkIf (cfg != {}) {
-    systemd.services = let
-      mkGoaccessService = website: {
-        name = "goaccess-${website.hostname}";
-        value = {
-          description = "Goaccess web log report.";
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            User = "root";
-            ExecStart = "${goaccessWebsiteMetricsScript website}";
-            Restart = "always";
-            RestartSec = 600;
+  config = mkIf (cfg != { }) {
+    systemd.services =
+      let
+        mkGoaccessService = website: {
+          name = "goaccess-${website.hostname}";
+          value = {
+            description = "Goaccess web log report.";
+            wantedBy = [ "multi-user.target" ];
+            serviceConfig = {
+              User = "root";
+              ExecStart = "${goaccessWebsiteMetricsScript website}";
+              Restart = "always";
+              RestartSec = 600;
+            };
           };
         };
-      };
-    in
+      in
       listToAttrs (map mkGoaccessService cfg.websites) // {
         goaccess-index = {
           description = "Generate Goaccess index.";

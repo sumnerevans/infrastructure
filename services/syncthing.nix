@@ -1,4 +1,5 @@
-{ config, lib, pkgs, ... }: let
+{ config, lib, pkgs, ... }:
+let
   certs = config.security.acme.certs;
   hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
 in

@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   hostnameDomain = "${config.networking.hostName}.${config.networking.domain}";
 in
 {

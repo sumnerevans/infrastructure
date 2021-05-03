@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   loungeHome = "/var/lib/thelounge";
   serverName = "irc.${config.networking.domain}";
 in

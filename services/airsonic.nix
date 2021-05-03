@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: let
+{ pkgs, config, ... }:
+let
   serverName = "airsonic.${config.networking.domain}";
 in
 {
@@ -9,9 +10,8 @@ in
     virtualHost = serverName;
   };
 
-  # Get a cert for it and make it only available over HTTPS.
   services.nginx.virtualHosts = {
-    "${serverName}" = {
+    ${serverName} = {
       forceSSL = true;
       enableACME = true;
     };

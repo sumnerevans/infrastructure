@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   certs = config.security.acme.certs;
   serverName = "irc.${config.networking.domain}";
   certDirectory = "${certs.${serverName}.directory}";

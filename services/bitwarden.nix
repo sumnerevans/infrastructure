@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   serverName = "bitwarden.${config.networking.domain}";
 in
 {

@@ -1,5 +1,6 @@
-{ pkgs, ... }: let
-  maubot = pkgs.callPackage ../../pkgs/maubot.nix {};
+{ pkgs, ... }:
+let
+  maubot = pkgs.callPackage ../../pkgs/maubot.nix { };
 in
 {
   systemd.services.maubot = {

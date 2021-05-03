@@ -14,9 +14,10 @@
     postUp = "iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE";
     postDown = "iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE";
 
-    peers = let
-      presharedKeyPath = deviceName: "/etc/nixos/secrets/wireguard-${deviceName}-presharedkey";
-    in
+    peers =
+      let
+        presharedKeyPath = deviceName: "/etc/nixos/secrets/wireguard-${deviceName}-presharedkey";
+      in
       [
         {
           # jedha
@@ -81,13 +82,13 @@
       "val-log-level: 1"
     ];
   in
-    {
-      enable = true;
-      allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
-      enableRootTrustAnchor = true;
-      interfaces = [ "0.0.0.0" ];
-      extraConfig = extraConfig;
-    };
+  {
+    enable = true;
+    allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
+    enableRootTrustAnchor = true;
+    interfaces = [ "0.0.0.0" ];
+    extraConfig = extraConfig;
+  };
 
   # Remove after https://github.com/NixOS/nixpkgs/pull/106308 is in unstable.
   systemd.services.unbound.serviceConfig.RestrictAddressFamilies = [ "AF_NETLINK" ];
