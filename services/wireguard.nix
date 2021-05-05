@@ -65,29 +65,25 @@
   };
 
   # Run unbound DNS so that the DNS requests can be tunneled through this VPN.
-  services.unbound = with lib; let
-    extraConfig = "  " + concatStringsSep "\n  " [
-      "num-threads: 4"
-      "private-address: 192.168.69.1/24"
-
-      # Hide DNS Server info
-      "hide-identity: yes"
-      "hide-version: yes"
-
-      # Add an unwanted reply threshold to clean the cache and avoid when
-      # possible a DNS Poisoning
-      "unwanted-reply-threshold: 10000000"
-
-      # Have the validator print validation failures to the log.
-      "val-log-level: 1"
-    ];
-  in
-  {
+  services.unbound = {
     enable = true;
     allowedAccess = [ "127.0.0.1" "192.168.69.1/24" ];
     enableRootTrustAnchor = true;
     interfaces = [ "0.0.0.0" ];
-    extraConfig = extraConfig;
+    settings.server = {
+      num-threads = 4;
+      private-address = "192.168.69.1/24";
+      # Hide DNS Server info
+      hide-identity = true;
+      hide-version = true;
+
+      # Add an unwanted reply threshold to clean the cache and avoid when
+      # possible a DNS Poisoning
+      unwanted-reply-threshold = 10000000;
+
+      # Have the validator print validation failures to the log.
+      val-log-level = 1;
+    };
   };
 
   # Remove after https://github.com/NixOS/nixpkgs/pull/106308 is in unstable.
