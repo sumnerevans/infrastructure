@@ -5,6 +5,7 @@
     ./bitwarden.nix
     ./goaccess.nix
     # ./gonic.nix
+    ./heartbeat.nix
     ./isso.nix
     ./logrotate.nix
     ./longview.nix
