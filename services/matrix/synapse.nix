@@ -4,6 +4,23 @@ let
   matrixDomain = "matrix.${config.networking.domain}";
 in
 {
+  # For Spaces stable prefix
+  nixpkgs.overlays = [
+    (
+      self: super: {
+        matrix-synapse = super.matrix-synapse.overrideAttrs (old: rec {
+          pname = "matrix-synapse";
+          version = "1.34.0";
+
+          src = self.python3.pkgs.fetchPypi {
+            inherit pname version;
+            sha256 = "sha256-lXVJfhcH9lKOCHn5f4Lc/OjgEYa5IpauKRhBsFXNWLw=";
+          };
+        });
+      }
+    )
+  ];
+
   # Run Synapse
   services.matrix-synapse = {
     enable = true;

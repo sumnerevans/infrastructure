@@ -51,7 +51,7 @@
       ${goaccessCmd "$logtmp" "${goaccessDir}/${hostname}/index.html"}
 
       # Run Goaccess for the past week days as well.
-      ${concatMapStringsSep "\n" (goaccessWebsiteMetricsForDayScriptPart "$logtmp" hostname) (lib.range 0 7)}
+      ${concatMapStringsSep "\n" (goaccessWebsiteMetricsForDayScriptPart "$logtmp" hostname) (range 0 7)}
 
       # Clean-up days older than a month.
       # TODO
