@@ -20,6 +20,10 @@ triggers:
     condition: failure
     to: alerts@sumnerevans.com
 tasks:
+  - skip: |
+      echo "This repo is deprecated. Skipping build."
+      complete-build
+
   # Skip everything if not on master.
   - skip_not_master: |
       cd $REPO_NAME
