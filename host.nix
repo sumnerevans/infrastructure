@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   imports = [
-    ./overlays.nix
     ./programs/default.nix
     ./services/default.nix
   ];
@@ -27,7 +26,6 @@
     tree
     unzip
     vim
-    zsh
   ];
 
   # nix-direnv

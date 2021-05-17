@@ -8,8 +8,6 @@ packages:
 sources:
   - https://git.sr.ht/~sumner/infrastructure
 secrets:
-  # README Personal Access Token
-  - 2fb5fd72-fa96-46c6-ab90-6b7cabebba16
   # SSH Known Hosts
   - 5f8876fe-b2b7-44f8-8ad5-6fa9bffbc52a
   # SSH Deploy Key
@@ -27,7 +25,7 @@ tasks:
   # Skip everything if not on master.
   - skip_not_master: |
       cd $REPO_NAME
-      git branch --contains | grep master || echo "Skipping README deploy since not on master"
+      git branch --contains | grep master || echo "Skipping deploy since not on master"
       git branch --contains | grep master || complete-build
 
   - setup: |
