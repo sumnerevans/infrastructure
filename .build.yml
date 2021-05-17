@@ -8,8 +8,6 @@ packages:
 sources:
   - https://git.sr.ht/~sumner/infrastructure
 secrets:
-  # SSH Known Hosts
-  - 5f8876fe-b2b7-44f8-8ad5-6fa9bffbc52a
   # SSH Deploy Key
   - f219888a-80af-4275-a777-89e8c7d277f0
   # Secrets Password File
@@ -30,6 +28,7 @@ tasks:
 
   - setup: |
       echo "cd $REPO_NAME" >> ~/.buildenv
+      ssh-keyscan bespin.sumnerevans.com >> ~/.ssh/known_hosts
 
   - send-secrets: |
       ./secrets_file_manager.sh extract
