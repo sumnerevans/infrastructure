@@ -1,5 +1,16 @@
 # Personal Infrastructure
 
+```
+.----------------------------------------------------------------------------.
+| DEPRECATED:                                                                |
+|                                                                            |
+| I no longer use this to configure my infrastructure. Rather, I have        |
+| unified all of my Nix system configurations under one repo which can be    |
+| found here:                                                                |
+| https://git.sr.ht/~sumner/nixos-configuration                              |
+'----------------------------------------------------------------------------'
+```
+
 [![builds.sr.ht status](https://builds.sr.ht/~sumner/infrastructure/commits/.build.yml.svg)](https://builds.sr.ht/~sumner/infrastructure/commits/.build.yml)
 [![HealthCheck Status](https://healthchecks.io/badge/b8bf9b9d-b4bb-4c92-b546-1c69a0/BpOIMYGi.svg)](https://healthchecks.io/projects/8384107b-0803-48b3-bd99-7702d1214ca5/checks/)
 
